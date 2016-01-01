@@ -11,8 +11,9 @@ import com.badlogic.gdx.math.Vector3;
 public class Arrow extends GameObject {
     private boolean shoot;
     private float shootVelocityX; //Velocity when arrow is released
-    public Sprite arrowSprite;
+    public Sprite arrowSprite; // Used to display texture/graphic
 
+    //Contructor
     public Arrow(Texture texture, Vector3 position, Vector3 velocity) {
         super(texture, position, velocity);
         shoot = false;
@@ -25,6 +26,7 @@ public class Arrow extends GameObject {
     }
 
     public void update(float dt, float x, float y, float velocityX){
+        //If it hasnt been shot, move with trolley
         if(!shoot){
             position.x = x;
             position.y = y;
@@ -32,14 +34,16 @@ public class Arrow extends GameObject {
         }else{
             position.add(shootVelocityX * 6, velocity.y, 0);
         }
-        rotate();
-        //velocity.x = velocityX;
-        //velocity.scl(1 / dt);
+        rotate(); // Under Construction
+
+        //Collision Detection
         bounds.setPosition(position.x, position.y);
+
         if(shoot)
             shoot();
     }
 
+    //sets value to true if arrow is shot, sets velocity as well
     public void setShoot(boolean shoot, float velocityX){
         this.shoot = shoot;
         shootVelocityX = velocityX;
@@ -50,6 +54,7 @@ public class Arrow extends GameObject {
         velocity.x += shootVelocityX;
     }
 
+    //Ignore for now
     public void hit(){
         dead = true;
     }

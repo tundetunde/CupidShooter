@@ -54,10 +54,10 @@ public class PlayGame extends State {
         shadow.getData().setScale(1.2f, 1.2f);
         scorefont = AssetLoader.scoreFont;
         scorefont.getData().setScale(0.6f, 0.6f);
-        labelStyle = new Label.LabelStyle(scorefont, Color.WHITE);
-        String instructionsText = "Tilt the screen left or right to move the trolley\nTouch Screen to Play!";
+        labelStyle = new Label.LabelStyle(scorefont, Color.PURPLE);
+        String instructionsText = "Tilt the screen left or right to move the trolley\nTap the screen to shoot arrow\nTo Play, Tap Screen!";
         instructions = new Label(instructionsText, labelStyle);
-        instructions.setPosition((cameraWidth / 2) - (instructions.getWidth() / 2), cameraHeight / 2);
+        instructions.setPosition((cameraWidth / 2) - (instructions.getWidth() / 2), cameraHeight / 2 - 40);
         stage.addActor(instructions);
         arrow = new Arrow(AssetLoader.arrow, new Vector3(trolleyX, trolleyY + trolley.getTexture().getHeight(), 0), new Vector3(0, 0, 0));
         //FallingPresentsGame.activityMethods.hideFbButton();
@@ -68,6 +68,8 @@ public class PlayGame extends State {
     protected void handleInput() {
         float y = Gdx.input.getAccelerometerY();
         trolley.move(y);
+
+        //If user has touched screen, shoot arrow
         if(Gdx.input.justTouched())
             arrow.setShoot(true, y);
     }
@@ -86,6 +88,8 @@ public class PlayGame extends State {
                 instructions.setVisible(false);
                 handleInput();
                 fallingObject.update(dt);
+
+                //Check if arrow hits object then add to score
                 if(checkHit()){
                     score++;
                     if(AssetLoader.isSoundOn())
@@ -93,8 +97,11 @@ public class PlayGame extends State {
                     fallingObject = new FallingObject(AssetLoader.christmasPresent ,new Vector3(rand.nextInt(cameraWidth), cameraHeight,0));
                     arrow = new Arrow(AssetLoader.arrow, new Vector3(trolleyX, trolleyY, 0), new Vector3(trolley.velocity.x, trolley.velocity.y, 0));
                 }
+
+                //Check if arrow has gone off screen
                 if(arrow.isArrowOutOfBounds())
                     arrow = new Arrow(AssetLoader.arrow, new Vector3(trolleyX, trolleyY, 0), new Vector3(trolley.velocity.x, trolley.velocity.y, 0));
+
                 if(fallingObject.isHitGround() || trolley.isCollide(fallingObject.getBounds())){
                     lives--;
                     System.out.println("LIVES LEFT: " + lives);
