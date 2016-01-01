@@ -1,0 +1,40 @@
+
+presents.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+present1
+  rotate: false
+  xy: 1, 1
+  size: 77, 75
+  orig: 77, 75
+  offset: 0, 0
+  index: -1
+present2
+  rotate: false
+  xy: 80, 1
+  size: 77, 75
+  orig: 77, 75
+  offset: 0, 0
+  index: -1
+present3
+  rotate: false
+  xy: 159, 1
+  size: 77, 75
+  orig: 77, 75
+  offset: 0, 0
+  index: -1
+present4
+  rotate: false
+  xy: 238, 1
+  size: 77, 75
+  orig: 77, 75
+  offset: 0, 0
+  index: -1
+present5
+  rotate: false
+  xy: 317, 1
+  size: 77, 75
+  orig: 77, 75
+  offset: 0, 0
+  index: -1
