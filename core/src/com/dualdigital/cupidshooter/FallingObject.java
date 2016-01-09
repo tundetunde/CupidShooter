@@ -7,7 +7,8 @@ import com.badlogic.gdx.math.Vector3;
  * Created by tunde_000 on 31/12/2015.
  */
 public class FallingObject extends GameObject{
-    private static final int GRAVITY = -7;
+    private static final int GRAVITY = -100;
+    private boolean dead;
 
     public FallingObject(Texture texture, Vector3 position) {
         super(texture, position, new Vector3(0,0,0));
@@ -17,6 +18,15 @@ public class FallingObject extends GameObject{
         else{
             position.x = position.x - texture.getWidth();
         }
+        dead = false;
+    }
+
+    public void hit(){
+        dead = true;
+    }
+
+    public boolean isDead(){
+        return dead;
     }
 
     public boolean isHitGround(){
@@ -28,7 +38,7 @@ public class FallingObject extends GameObject{
     @Override
     public void update(float dt) {
         if(position.y > 0)
-            velocity.add(0, GRAVITY, 0);
+            velocity.y = GRAVITY;
         velocity.scl(dt);
         position.add(0, velocity.y, 0);
         bounds.setPosition(position.x, position.y);

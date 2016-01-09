@@ -9,8 +9,7 @@ import com.badlogic.gdx.math.Vector3;
  * Created by tunde_000 on 31/12/2015.
  */
 public class Arrow extends GameObject {
-    private boolean shoot;
-    private float shootVelocityX; //Velocity when arrow is released
+    private boolean shoot;//Velocity when arrow is released
     public Sprite arrowSprite; // Used to display texture/graphic
 
     //Contructor
@@ -32,7 +31,7 @@ public class Arrow extends GameObject {
             position.y = y;
             position.add(velocity.x, velocity.y, 0);
         }else{
-            position.add(shootVelocityX * 6, velocity.y, 0);
+            position.add(velocity.x, 0, 0);
         }
         rotate(); // Under Construction
 
@@ -46,12 +45,14 @@ public class Arrow extends GameObject {
     //sets value to true if arrow is shot, sets velocity as well
     public void setShoot(boolean shoot, float velocityX){
         this.shoot = shoot;
-        shootVelocityX = velocityX;
     }
 
     public void shoot(){
-        velocity.y += 1;
-        velocity.x += shootVelocityX;
+        velocity.x += 1;
+    }
+
+    public boolean isDead(){
+        return dead;
     }
 
     //Ignore for now
@@ -60,7 +61,7 @@ public class Arrow extends GameObject {
     }
 
     public void rotate(){
-        arrowSprite.setRotation(shootVelocityX * 100);
+        //arrowSprite.setRotation(shootVelocityX * 100);
     }
 
     public boolean isCollide(Rectangle present){
@@ -68,7 +69,7 @@ public class Arrow extends GameObject {
     }
 
     public boolean isArrowOutOfBounds(){
-        if(position.y >= TheGame.HEIGHT / 2)
+        if(position.x >= TheGame.WIDTH / 2)
             return true;
         return false;
     }

@@ -15,18 +15,18 @@ public class Trolley extends GameObject {
 
     @Override
     public void update(float dt) {
-        if(position.x > 0 || position.x < ((TheGame.WIDTH / 2) - texture.getWidth()))
-            position.add(velocity.x, 0, 0);
-        if(position.x < 0)
-            position.x = 0;
-        if(position.x > (TheGame.WIDTH / 2) - texture.getWidth())
-            position.x = TheGame.WIDTH / 2 - texture.getWidth();
+        if(position.y > 0 || position.y < ((TheGame.WIDTH / 2) - texture.getWidth()))
+            position.add(0, velocity.y, 0);
+        if(position.y < 0)
+            position.y = 0;
+        if(position.y > (TheGame.WIDTH / 2) - texture.getWidth())
+            position.y = TheGame.WIDTH / 2 - texture.getWidth();
         bounds.setPosition(position.x, position.y);
         velocity.scl(1 / dt);
     }
 
-    public void move(float x){
-        velocity.x = (x * 3);
+    public void move(float y){
+        velocity.y = (y * 3);
     }
 
     public boolean isCollide(Rectangle present){
