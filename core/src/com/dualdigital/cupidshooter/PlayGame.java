@@ -75,8 +75,9 @@ public class PlayGame extends State {
 
     public void newObjectPerSecond(){
         if(!fallingObjects.isEmpty()){
-            if(fallingObjects.get(fallingObjects.size() - 1).position.y == ((cameraHeight) / 3) * 2){
+            if(fallingObjects.get(fallingObjects.size() - 1).position.y < ((cameraHeight) / 2)){
                 addObject();
+                System.out.println("New Object added");
             }
         }
     }
