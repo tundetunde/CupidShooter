@@ -48,7 +48,6 @@ public class PlayGame extends State {
         lives = 3;
         rand = new Random();
         AssetLoader.setMotionControl(true);
-        //fallingObject = new FallingObject(AssetLoader.christmasPresent ,new Vector3(rand.nextInt(cameraWidth), cameraHeight,0));
         trolley = new Trolley(AssetLoader.trolley, new Vector3(0, 0 ,0));
         background = AssetLoader.background;
         camera.setToOrtho(false, TheGame.WIDTH / 2, TheGame.HEIGHT / 2);
@@ -77,7 +76,6 @@ public class PlayGame extends State {
         if(!fallingObjects.isEmpty()){
             if(fallingObjects.get(fallingObjects.size() - 1).position.y < ((cameraHeight) / 2)){
                 addObject();
-                System.out.println("New Object added");
             }
         }
     }
@@ -175,10 +173,6 @@ public class PlayGame extends State {
                     addObject();
                 fallingObjects.addAll(aliveFallingObjects);
                 newObjectPerSecond();
-                /*synchronized (PlayGame.class){
-                    fallingObjects.clear();
-                    fallingObjects.addAll(aliveFallingObjects);
-                }*/
             }
         }else{
             if(Gdx.input.justTouched()){
