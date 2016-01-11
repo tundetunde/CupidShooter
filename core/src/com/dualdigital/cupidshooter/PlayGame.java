@@ -9,12 +9,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.utils.Timer;
-
-import org.omg.IOP.TAG_JAVA_CODEBASE;
 
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -39,7 +35,6 @@ public class PlayGame extends State {
     private Label instructions;
     private BitmapFont scorefont;
     private Arrow arrow;
-    int counter;
     private ArrayList<FallingObject> fallingObjects;
 
 
@@ -86,15 +81,15 @@ public class PlayGame extends State {
         if(arrowInARow == 0)
             fallingObjects.add(new FallingObject(AssetLoader.christmasPresent ,new Vector3(rand.nextInt(cameraWidth), cameraHeight,0)));
         else if(arrowInARow == 1) {
-            int x1 = rand.nextInt(cameraWidth);
+            int x1 = rand.nextInt(cameraWidth) + AssetLoader.trolley.getWidth();
             fallingObjects.add(new FallingObject(AssetLoader.christmasPresent, new Vector3(x1, cameraHeight, 0)));
-            fallingObjects.add(new FallingObject(AssetLoader.christmasPresent, new Vector3(x1 + AssetLoader.christmasPresent.getWidth(), cameraHeight, 0)));
+            fallingObjects.add(new FallingObject(AssetLoader.christmasPresent, new Vector3(x1 + AssetLoader.christmasPresent.getWidth() + 30, cameraHeight, 0)));
         }else if(arrowInARow == 2){
-            int x1 = rand.nextInt(cameraWidth);
-            int x2 = x1 + AssetLoader.christmasPresent.getWidth() + 60;
+            int x1 = rand.nextInt(cameraWidth) + AssetLoader.trolley.getWidth();
+            int x2 = x1 + AssetLoader.christmasPresent.getWidth() + 30;
             fallingObjects.add(new FallingObject(AssetLoader.christmasPresent ,new Vector3(x1, cameraHeight,0)));
-            fallingObjects.add(new FallingObject(AssetLoader.christmasPresent ,new Vector3(x1 + AssetLoader.christmasPresent.getWidth() + 30, cameraHeight,0)));
-            fallingObjects.add(new FallingObject(AssetLoader.christmasPresent ,new Vector3(x2 + AssetLoader.christmasPresent.getWidth(), cameraHeight,0)));
+            fallingObjects.add(new FallingObject(AssetLoader.christmasPresent ,new Vector3(x2, cameraHeight,0)));
+            fallingObjects.add(new FallingObject(AssetLoader.christmasPresent ,new Vector3(x2 + AssetLoader.christmasPresent.getWidth() + 30, cameraHeight,0)));
         }
     }
 
