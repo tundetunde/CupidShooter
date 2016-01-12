@@ -12,10 +12,17 @@ public class TheGame extends ApplicationAdapter {
 	public static final int WIDTH = 2400;
 	private static GameStateManager gsm;
 	private SpriteBatch batch;
-	/*public static ActionResolver resolver;
+	//public static ActionResolver resolver;
 	public static AdsController adsControl;
-	public static ActivityMethods activityMethods;*/
-	
+	public static ActivityMethods activityMethods;
+
+	public TheGame(AdsController adsControl, ActivityMethods activityMethods) {
+		super();
+		//FallingPresentsGame.resolver = resolver;
+		TheGame.activityMethods = activityMethods;
+		TheGame.adsControl = adsControl;
+	}
+
 	@Override
 	public void create () {
 		gsm = new GameStateManager();
