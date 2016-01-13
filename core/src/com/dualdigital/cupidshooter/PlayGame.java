@@ -63,7 +63,7 @@ public class PlayGame extends State {
         arrow = new Arrow(AssetLoader.arrow, new Vector3(trolleyX, trolleyY + trolley.getTexture().getHeight(), 0), new Vector3(0, 0, 0));
         fallingObjects = new ArrayList<FallingObject>();
         addObject();
-        //FallingPresentsGame.activityMethods.hideFbButton();
+        TheGame.activityMethods.hideFbButton();
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -142,12 +142,10 @@ public class PlayGame extends State {
                         if(lives == 0){
                             if (score > AssetLoader.getHighScore()) {
                                 AssetLoader.setHighScore(score);
-                        /*if(FallingPresentsGame.activityMethods.isLoggedInFB()){
-                            FallingPresentsGame.activityMethods.postFacebookScore(score);
-                            FallingPresentsGame.activityMethods.postLeaderboard();
-                        }*/
-                        /*FallingPresentsGame.activityMethods.postFacebookScore(score);
-                        FallingPresentsGame.activityMethods.postLeaderboard();*/
+                        if(TheGame.activityMethods.isLoggedInFB()){
+                            TheGame.activityMethods.postFacebookScore(score);
+                            TheGame.activityMethods.postLeaderboard();
+                        }
                             }
                             gcm.set(new EndGame(gcm, y.getPosition(), trolley.getPosition(), score));
                         }else{

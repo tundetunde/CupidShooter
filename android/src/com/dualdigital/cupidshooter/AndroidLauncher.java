@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
@@ -24,9 +26,14 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.Profile;
+import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -37,15 +44,34 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 	LoginButton loginFB;
 	Profile profile;
 	CallbackManager callbackManager;
+	private static final String FB_APP_ID = "650286768447115";
+	AccessToken accessToken;
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-		initialize(new TheGame(), config);
+		//initialize(new TheGame(this, this), config);
 		FacebookSdk.sdkInitialize(getApplicationContext());
 		callbackManager = CallbackManager.Factory.create();
 		initializeFBButton(callbackManager);
 		printFBKeyHash();
+		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
+		View gameView = initializeForView(new TheGame(this, this), config);
+		defineAdLayoutMenu(gameView);
+	}
+
+	public void defineAdLayoutMenu(View gameView){
+		RelativeLayout layout = new RelativeLayout(this);
+		layout.addView(gameView, ViewGroup.LayoutParams.MATCH_PARENT,
+				ViewGroup.LayoutParams.MATCH_PARENT);
+
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+				ViewGroup.LayoutParams.WRAP_CONTENT,
+				ViewGroup.LayoutParams.WRAP_CONTENT);
+		//params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+		params.addRule(RelativeLayout.CENTER_IN_PARENT);
+		layout.addView(loginFB, params);
+		//hideFbButton();
+		setContentView(layout);
 	}
 
 	private void initializeFBButton(CallbackManager callbackManager){
@@ -74,7 +100,7 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 
 			}
 		});
-		ArrayList list = new ArrayList<String>();
+		ArrayList list = new ArrayList<>();
 		list.add("publish_actions");
 		LoginManager.getInstance().logInWithPublishPermissions(this, list);
 		LoginManager.getInstance().registerCallback(callbackManager,
@@ -100,7 +126,7 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 	private void printFBKeyHash(){
 		try {
 			PackageInfo info = getPackageManager().getPackageInfo(
-					"com.dualtech.fallingpresents.android",
+					"com.dualdigital.cupidshooter",
 					PackageManager.GET_SIGNATURES);
 			for (Signature signature : info.signatures) {
 				MessageDigest md = MessageDigest.getInstance("SHA");
@@ -180,12 +206,56 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 
 	@Override
 	public void showFbButton() {
+		/*runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				loginFB.setVisibility(View.VISIBLE);
+			}
+		});*/
 		loginFB.setVisibility(View.VISIBLE);
 	}
 
 	@Override
 	public ArrayList<HashMap<String, Integer>> postLeaderboard() {
-		return null;
+		final ArrayList<HashMap<String, Integer>> list = new ArrayList<>();
+		new GraphRequest(
+				AccessToken.getCurrentAccessToken(),
+				"/" + FB_APP_ID + "/scores",
+				null,
+				HttpMethod.GET,
+				new GraphRequest.Callback() {
+					public void onCompleted(GraphResponse response) {
+            /* handle the result */
+						Log.d("LeaderBoard ting", response.toString());
+						JSONObject j = response.getJSONObject();
+						JSONArray jsonArray = null;
+						try {
+							jsonArray = j.getJSONArray("data");
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+						for (int i=0; i< jsonArray.length(); i++) {
+							try {
+								String name = "";
+								JSONObject jsonobject = (JSONObject) jsonArray.get(i);
+								JSONObject user = jsonobject.getJSONObject("user");
+								final int score = jsonobject.optInt("score");
+								name = user.optString("name");
+								final String theName = name;
+								list.add(
+										new HashMap<String, Integer>(){{
+											put(theName, score);
+										}}
+								);
+							} catch (JSONException e) {
+								e.printStackTrace();
+							}
+						}
+					}
+				}
+		).executeAndWait();
+
+		return list;
 	}
 
 	@Override
@@ -217,5 +287,21 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 		NetworkInfo ni = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
 		return (ni != null && ni.isConnected());
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		// Logs 'install' and 'app activate' App Events.
+		AppEventsLogger.activateApp(this);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+
+		// Logs 'app deactivate' App Event.
+		AppEventsLogger.deactivateApp(this);
 	}
 }

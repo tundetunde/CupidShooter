@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-
 /**
  * Created by tunde_000 on 31/12/2015.
  */
@@ -35,6 +34,7 @@ public class Menu extends State{
         stage.addActor(rateButton);
         stage.addActor(leaderBoardButton);
         Gdx.input.setInputProcessor(stage);
+        TheGame.activityMethods.showFbButton();
     }
 
     public void initializeButtons(){

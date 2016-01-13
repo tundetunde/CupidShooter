@@ -46,7 +46,7 @@ public class Leaderboard extends ListActivity {
         fb_contact.clear();
         for(HashMap<String, Integer> s: leaderboardArray){
             //fb_contact.add(new Contact(s), s));
-            Set set = s.get().entrySet();
+            Set set = s.entrySet();
             Iterator iterator = set.iterator();
             Map.Entry mentry = (Map.Entry)iterator.next();
             String name = mentry.getKey().toString();

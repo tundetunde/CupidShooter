@@ -27,6 +27,7 @@ public class SplashScreen extends State{
         bgSprite = new Sprite(bgTexture);
         bgSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.setToOrtho(false, TheGame.WIDTH / 2, TheGame.HEIGHT / 2);
+        //TheGame.activityMethods.hideFbButton();
         /*Timer.schedule(new Timer.Task() {
             @Override
             public void run() {

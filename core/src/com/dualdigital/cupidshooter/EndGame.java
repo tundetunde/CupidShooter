@@ -80,8 +80,8 @@ public class EndGame extends State {
                 super.clicked(event, x, y);
                 System.out.println("Share Button Clicked");
                 /*if (TheGame.adsControl.isWifiConnected())
-                    TheGame.adsControl.hideBannerAd();
-                TheGame.activityMethods.shareScore(score);*/
+                    TheGame.adsControl.hideBannerAd();*/
+                TheGame.activityMethods.shareScore(score);
             }
         });
 
@@ -112,9 +112,6 @@ public class EndGame extends State {
             public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 System.out.println("LeaderBoard: Button Clicked");
-                /*TheGame.resolver.isSignedIn();
-                TheGame.resolver.signIn();
-                TheGame.resolver.submitScore(score);*/
             }
         });
 
