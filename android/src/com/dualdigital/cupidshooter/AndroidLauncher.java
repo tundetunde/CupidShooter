@@ -139,7 +139,7 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 					@Override
 					public void onSuccess(LoginResult loginResult) {
 						// App code
-						//loginResult.getAccessToken();
+						loginResult.getAccessToken();
 					}
 
 					@Override

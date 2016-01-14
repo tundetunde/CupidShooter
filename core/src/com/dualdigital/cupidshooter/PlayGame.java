@@ -77,15 +77,15 @@ public class PlayGame extends State {
 
     public void addObject(){
         Random rand = new Random();
-        int arrowInARow = rand.nextInt(3);
-        if(arrowInARow == 0)
-            fallingObjects.add(new FallingObject(AssetLoader.christmasPresent ,new Vector3(rand.nextInt(cameraWidth), cameraHeight,0)));
-        else if(arrowInARow == 1) {
-            int x1 = rand.nextInt(cameraWidth) + AssetLoader.trolley.getWidth();
+        int objectInARow = rand.nextInt(3);
+        if(objectInARow == 0)
+            fallingObjects.add(new FallingObject(AssetLoader.christmasPresent ,new Vector3(rand.nextInt(cameraWidth - AssetLoader.christmasPresent.getWidth()), cameraHeight,0)));
+        else if(objectInARow == 1) {
+            int x1 = rand.nextInt(cameraWidth - (AssetLoader.christmasPresent.getWidth() * 2));
             fallingObjects.add(new FallingObject(AssetLoader.christmasPresent, new Vector3(x1, cameraHeight, 0)));
             fallingObjects.add(new FallingObject(AssetLoader.christmasPresent, new Vector3(x1 + AssetLoader.christmasPresent.getWidth() + 30, cameraHeight, 0)));
-        }else if(arrowInARow == 2){
-            int x1 = rand.nextInt(cameraWidth) + AssetLoader.trolley.getWidth();
+        }else if(objectInARow == 2){
+            int x1 = rand.nextInt(cameraWidth - (AssetLoader.christmasPresent.getWidth() * 3));
             int x2 = x1 + AssetLoader.christmasPresent.getWidth() + 30;
             fallingObjects.add(new FallingObject(AssetLoader.christmasPresent ,new Vector3(x1, cameraHeight,0)));
             fallingObjects.add(new FallingObject(AssetLoader.christmasPresent ,new Vector3(x2, cameraHeight,0)));
@@ -144,7 +144,6 @@ public class PlayGame extends State {
                                 AssetLoader.setHighScore(score);
                                 if(TheGame.activityMethods.isLoggedInFB()){
                                     TheGame.activityMethods.postFacebookScore(score);
-                                    TheGame.activityMethods.postLeaderboard();
                                 }
                             }
                             gcm.set(new EndGame(gcm, y.getPosition(), trolley.getPosition(), score));
@@ -165,7 +164,7 @@ public class PlayGame extends State {
                 if(newObjectNeeded)
                     addObject();
                 fallingObjects.addAll(aliveFallingObjects);
-                newObjectPerSecond();
+                //newObjectPerSecond();
             }
         }else{
             if(Gdx.input.justTouched()){
