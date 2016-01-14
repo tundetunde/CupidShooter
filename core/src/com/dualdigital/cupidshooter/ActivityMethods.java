@@ -14,4 +14,5 @@ public interface ActivityMethods {
     void hideFbButton();
     void showFbButton();
     ArrayList<HashMap<String, Integer>> postLeaderboard();
+    void startLeaderboardActivity();
 }

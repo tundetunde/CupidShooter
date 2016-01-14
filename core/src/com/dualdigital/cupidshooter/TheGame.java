@@ -28,12 +28,12 @@ public class TheGame extends ApplicationAdapter {
 		gsm = new GameStateManager();
 		batch = new SpriteBatch();
 		Gdx.gl.glClearColor(1, 0, 0, 1);
-		new Thread(new Runnable() {
+		/*new Thread(new Runnable() {
 			@Override
 			public void run() {
 				AssetLoader.load();
 			}
-		}).start();
+		}).start();*/
 		gsm.push(new SplashScreen(gsm));
 		new Thread(new Runnable() {
 			@Override

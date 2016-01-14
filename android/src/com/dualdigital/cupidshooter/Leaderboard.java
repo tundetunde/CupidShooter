@@ -1,23 +1,16 @@
 package com.dualdigital.cupidshooter;
 
-import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.ContextWrapper;
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
-
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,9 +23,10 @@ import java.util.Set;
  * Created by tunde_000 on 11/01/2016.
  */
 public class Leaderboard extends ListActivity {
-    ArrayList<HashMap<String, Integer>> leaderboardArray;
+    public static ArrayList<HashMap<String, Integer>> leaderboardArray;
     static ContactAdapter adapter;
     static ArrayList<Contact> fb_contact;
+    Button goBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +36,14 @@ public class Leaderboard extends ListActivity {
     }
 
     private void initialize() {
-        ArrayList<HashMap<String, Integer>> leaderboardArray = null;
-        fb_contact.clear();
+        goBack = (Button) findViewById(R.id.btnGoBack);
+        goBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+        fb_contact = new ArrayList<>();
         for(HashMap<String, Integer> s: leaderboardArray){
             //fb_contact.add(new Contact(s), s));
             Set set = s.entrySet();

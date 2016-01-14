@@ -54,7 +54,7 @@ public class EndGame extends State {
         stage.addActor(shareButton);
         stage.addActor(muteButton);
         stage.addActor(rateButton);
-        //stage.addActor(leaderBoardButton);
+        stage.addActor(leaderBoardButton);
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -112,6 +112,8 @@ public class EndGame extends State {
             public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 System.out.println("LeaderBoard: Button Clicked");
+                if(TheGame.activityMethods.isLoggedInFB())
+                    TheGame.activityMethods.startLeaderboardActivity();
             }
         });
 

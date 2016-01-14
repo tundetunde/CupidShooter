@@ -142,10 +142,10 @@ public class PlayGame extends State {
                         if(lives == 0){
                             if (score > AssetLoader.getHighScore()) {
                                 AssetLoader.setHighScore(score);
-                        if(TheGame.activityMethods.isLoggedInFB()){
-                            TheGame.activityMethods.postFacebookScore(score);
-                            TheGame.activityMethods.postLeaderboard();
-                        }
+                                if(TheGame.activityMethods.isLoggedInFB()){
+                                    TheGame.activityMethods.postFacebookScore(score);
+                                    TheGame.activityMethods.postLeaderboard();
+                                }
                             }
                             gcm.set(new EndGame(gcm, y.getPosition(), trolley.getPosition(), score));
                         }else{

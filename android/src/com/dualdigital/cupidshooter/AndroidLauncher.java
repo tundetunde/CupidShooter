@@ -30,6 +30,9 @@ import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,21 +48,35 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 	Profile profile;
 	CallbackManager callbackManager;
 	private static final String FB_APP_ID = "650286768447115";
+	private static final String BANNER_AD_UNIT_ID = "ca-app-pub-6044705985167929/2121637293";
+	private static final String BANNER_TEST = "ca-app-pub-3940256099942544/6300978111";
 	AccessToken accessToken;
+	AdView bannerAd;
+
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//initialize(new TheGame(this, this), config);
+		setupAds();
 		FacebookSdk.sdkInitialize(getApplicationContext());
 		callbackManager = CallbackManager.Factory.create();
 		initializeFBButton(callbackManager);
 		printFBKeyHash();
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		View gameView = initializeForView(new TheGame(this, this), config);
-		defineAdLayoutMenu(gameView);
+		defineFBLayout(gameView);
 	}
 
-	public void defineAdLayoutMenu(View gameView){
+	public void setupAds() {
+		bannerAd = new AdView(this);
+		bannerAd.setVisibility(View.INVISIBLE);
+		bannerAd.setBackgroundColor(0xff000000); // black
+		//bannerAd.setAdUnitId(BANNER_AD_UNIT_ID);
+		bannerAd.setAdUnitId(BANNER_TEST);
+		bannerAd.setAdSize(AdSize.SMART_BANNER);
+	}
+
+	public void defineFBLayout(View gameView){
 		RelativeLayout layout = new RelativeLayout(this);
 		layout.addView(gameView, ViewGroup.LayoutParams.MATCH_PARENT,
 				ViewGroup.LayoutParams.MATCH_PARENT);
@@ -72,6 +89,20 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 		layout.addView(loginFB, params);
 		//hideFbButton();
 		setContentView(layout);
+	}
+
+	public void defineAdLayout(View gameView){
+		RelativeLayout layout1 = new RelativeLayout(this);
+		layout1.addView(gameView, ViewGroup.LayoutParams.MATCH_PARENT,
+				ViewGroup.LayoutParams.MATCH_PARENT);
+
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+				ViewGroup.LayoutParams.MATCH_PARENT,
+				ViewGroup.LayoutParams.WRAP_CONTENT);
+		params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+		layout1.addView(bannerAd, params);
+
+		setContentView(layout1);
 	}
 
 	private void initializeFBButton(CallbackManager callbackManager){
@@ -143,14 +174,14 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 	@Override
 	public void shareScore() {
 		String text = "#FallingPresents\nI'm collecting presents from Santa\n What about you?\n " +
-				"Download from https://play.google.com/store/apps/details?id=com.dualtech.fallingpresents.android";
+				"Download from https://play.google.com/store/apps/details?id=com.dualdigital.cupidshooter";
 		share("text/plain", text);
 	}
 
 	@Override
 	public void shareScore(long score) {
 		String text = "#FallingPresents\nI have collected " + score + " presents\nWhat about you?\n" +
-				"Download from https://play.google.com/store/apps/details?id=com.dualtech.fallingpresents.android";
+				"Download from https://play.google.com/store/apps/details?id=com.dualdigital.cupidshooter";
 		share("text/plain", text);
 	}
 
@@ -259,8 +290,15 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 	}
 
 	@Override
+	public void startLeaderboardActivity() {
+		Leaderboard.leaderboardArray = postLeaderboard();
+		Intent i = new Intent(this, Leaderboard.class);
+		startActivity(i);
+	}
+
+	@Override
 	public void showBannerAd() {
-		/*runOnUiThread(new Runnable() {
+		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				bannerAd.setVisibility(View.VISIBLE);
@@ -268,17 +306,17 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 				AdRequest ad = builder.build();
 				bannerAd.loadAd(ad);
 			}
-		});*/
+		});
 	}
 
 	@Override
 	public void hideBannerAd() {
-		/*runOnUiThread(new Runnable() {
+		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				bannerAd.setVisibility(View.INVISIBLE);
 			}
-		});	*/
+		});
 	}
 
 	@Override
@@ -303,5 +341,11 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 
 		// Logs 'app deactivate' App Event.
 		AppEventsLogger.deactivateApp(this);
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		callbackManager.onActivityResult(requestCode, resultCode, data);
 	}
 }
