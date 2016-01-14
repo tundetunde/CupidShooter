@@ -43,7 +43,7 @@ public class TheGame extends ApplicationAdapter {
 					public void run() {
 						gsm.push(new Menu(gsm));
 					}
-				}, 3);
+				}, 4);
 			}
 		}).start();
 	}
