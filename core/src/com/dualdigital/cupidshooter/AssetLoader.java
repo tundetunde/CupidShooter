@@ -26,20 +26,20 @@ public class AssetLoader {
         livesLeft = new BitmapFont(Gdx.files.internal("text.fnt"));
         shadow = new BitmapFont(Gdx.files.internal("shadow.fnt"));
         scoreFont = new BitmapFont(Gdx.files.internal("text.fnt"));
-        background = new Texture("bg3.jpg");
+        background = new Texture("backg.png");
         splash = new Texture("splash.png");
-        trolley = new Texture("trolley.png");
-        arrow = new Texture("cupid_arrow_2.png");
+        trolley = new Texture("bow.png");
+        arrow = new Texture("arrow.png");
 
         labelStyle = new Label.LabelStyle();
         labelStyle.font = new BitmapFont(Gdx.files.internal("text.fnt"));
         labelStyle.font.getData().setScale(0.5f, 0.5f);
 
-        p1 = new Texture("present1.png");
+/*        p1 = new Texture("present1.png");
         p2 = new Texture("present2.png");
         p3 = new Texture("present3.png");
-        p4 = new Texture("present4.png");
-        p5 = new Texture("present5.png");
+        p4 = new Texture("present4.png");*/
+        p5 = new Texture("redbox.png");
 
         christmasPresent = p5;
 

@@ -3,73 +3,73 @@ menuButtons.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-share
+play
   rotate: false
   xy: 1, 1
-  size: 100, 99
-  orig: 100, 99
+  size: 100, 94
+  orig: 100, 94
   offset: 0, 0
   index: -1
 playR
   rotate: false
-  xy: 103, 4
-  size: 101, 96
-  orig: 101, 96
-  offset: 0, 0
-  index: -1
-shareR
-  rotate: false
-  xy: 206, 3
-  size: 100, 97
-  orig: 100, 97
-  offset: 0, 0
-  index: -1
-play
-  rotate: false
-  xy: 308, 5
-  size: 100, 95
-  orig: 100, 95
+  xy: 103, 1
+  size: 100, 94
+  orig: 100, 94
   offset: 0, 0
   index: -1
 rate
   rotate: false
-  xy: 410, 5
-  size: 100, 95
-  orig: 100, 95
+  xy: 205, 1
+  size: 100, 94
+  orig: 100, 94
   offset: 0, 0
   index: -1
 rateR
   rotate: false
-  xy: 512, 5
-  size: 100, 95
-  orig: 100, 95
+  xy: 307, 1
+  size: 100, 94
+  orig: 100, 94
   offset: 0, 0
   index: -1
 score
   rotate: false
-  xy: 614, 5
-  size: 100, 95
-  orig: 100, 95
+  xy: 409, 1
+  size: 100, 94
+  orig: 100, 94
   offset: 0, 0
   index: -1
 scoreR
   rotate: false
-  xy: 716, 5
-  size: 100, 95
-  orig: 100, 95
+  xy: 511, 1
+  size: 100, 94
+  orig: 100, 94
+  offset: 0, 0
+  index: -1
+share
+  rotate: false
+  xy: 613, 1
+  size: 100, 94
+  orig: 100, 94
+  offset: 0, 0
+  index: -1
+shareR
+  rotate: false
+  xy: 715, 1
+  size: 100, 94
+  orig: 100, 94
   offset: 0, 0
   index: -1
 mute
   rotate: false
-  xy: 818, 32
-  size: 70, 68
-  orig: 70, 68
+  xy: 817, 28
+  size: 70, 67
+  orig: 70, 67
   offset: 0, 0
   index: -1
 sound
   rotate: false
-  xy: 890, 32
-  size: 70, 68
-  orig: 70, 68
+  xy: 889, 28
+  size: 70, 67
+  orig: 70, 67
   offset: 0, 0
   index: -1
