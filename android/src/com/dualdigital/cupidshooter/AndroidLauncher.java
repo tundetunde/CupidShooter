@@ -64,7 +64,8 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 		printFBKeyHash();
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		View gameView = initializeForView(new TheGame(this, this), config);
-		defineFBLayout(gameView);
+		//defineFBLayout(gameView);
+		defineAdLayout(gameView);
 	}
 
 	public void setupAds() {
@@ -87,7 +88,7 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 		//params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 		params.addRule(RelativeLayout.CENTER_IN_PARENT);
 		layout.addView(loginFB, params);
-		//hideFbButton();
+		//hideFbButton1();
 		setContentView(layout);
 	}
 
@@ -102,7 +103,15 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 		params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 		layout1.addView(bannerAd, params);
 
+		RelativeLayout.LayoutParams params1 = new RelativeLayout.LayoutParams(
+				ViewGroup.LayoutParams.WRAP_CONTENT,
+				ViewGroup.LayoutParams.WRAP_CONTENT);
+		//params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+		params1.addRule(RelativeLayout.CENTER_IN_PARENT);
+		layout1.addView(loginFB, params1);
+
 		setContentView(layout1);
+		//hideFbButton();
 	}
 
 	private void initializeFBButton(CallbackManager callbackManager){
@@ -226,7 +235,7 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 	}
 
 	@Override
-	public void hideFbButton() {
+	 public void hideFbButton() {
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
@@ -235,15 +244,25 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 		});
 	}
 
+	public void hideFbButton1() {
+		/*runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				loginFB.setVisibility(View.INVISIBLE);
+			}
+		});*/
+		loginFB.setVisibility(View.INVISIBLE);
+	}
+
 	@Override
 	public void showFbButton() {
-		/*runOnUiThread(new Runnable() {
+		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				loginFB.setVisibility(View.VISIBLE);
 			}
-		});*/
-		loginFB.setVisibility(View.VISIBLE);
+		});
+		//loginFB.setVisibility(View.VISIBLE);
 	}
 
 	@Override

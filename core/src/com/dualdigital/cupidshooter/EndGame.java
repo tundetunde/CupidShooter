@@ -29,8 +29,8 @@ public class EndGame extends State {
 
     protected EndGame(GameStateManager gcm, Vector3 presentPosition, Vector3 trolleyPosition, long score) {
         super(gcm);
-        /*if(TheGame.adsControl.isWifiConnected())
-            TheGame.adsControl.showBannerAd();*/
+        if(TheGame.adsControl.isWifiConnected())
+            TheGame.adsControl.showBannerAd();
         fallingObject = new FallingObject(AssetLoader.christmasPresent , new Vector3((int)presentPosition.x, (int)presentPosition.y,0));
         trolley = new Trolley(AssetLoader.trolley, new Vector3(trolleyPosition.x, trolleyPosition.y ,0));
         background = AssetLoader.background;

@@ -35,6 +35,7 @@ public class TheGame extends ApplicationAdapter {
 			}
 		}).start();*/
 		gsm.push(new SplashScreen(gsm));
+		activityMethods.hideFbButton();
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
