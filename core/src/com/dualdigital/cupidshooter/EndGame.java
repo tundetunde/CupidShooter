@@ -124,7 +124,7 @@ public class EndGame extends State {
             public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 System.out.println("Rate: Button Clicked");
-                Gdx.net.openURI("https://play.google.com/store/apps/details?id=com.dualtech.fallingpresents.android");
+                Gdx.net.openURI("https://play.google.com/store/apps/details?id=com.dualdigital.cupidshooter");
             }
         });
     }

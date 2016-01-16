@@ -19,7 +19,7 @@ public abstract class GameObject {
         this.position = position;
         this.velocity = velocity;
         this.texture = texture;
-        bounds = new Rectangle(position.x, position.y, texture.getWidth(), texture.getHeight() - 40);
+        bounds = new Rectangle(position.x, position.y, texture.getWidth(), texture.getHeight());
         numberOfObjects++;
         dead = false;
     }

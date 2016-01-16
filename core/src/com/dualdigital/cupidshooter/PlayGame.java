@@ -128,6 +128,7 @@ public class PlayGame extends State {
                             AssetLoader.coin.play();
                         if(tempFallingObjects.size() == 1)
                             newObjectNeeded = true;
+                        //newObjectNeeded = true;
                     }
                     if((y.isHitGround() && !y.isDead()) || trolley.isCollide(y.getBounds())){
                         lives--;
@@ -145,6 +146,9 @@ public class PlayGame extends State {
                             newObjectNeeded = true;
                         }
                     }
+                    if(y.isHitGround()){
+                        newObjectNeeded = true;
+                    }
                 }
 
                 trolley.update(dt);
@@ -161,7 +165,7 @@ public class PlayGame extends State {
                 //newObjectPerSecond();
             }
         }else{
-            if(Gdx.input.justTouched()){
+            if (Gdx.input.justTouched()){
                 addObject();
             }
         }
