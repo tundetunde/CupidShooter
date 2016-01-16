@@ -12,7 +12,7 @@ public class FallingObject extends GameObject{
 
     public FallingObject(Texture texture, Vector3 position) {
         super(texture, position, new Vector3(0,0,0));
-        if (position.x < TheGame.WIDTH / 2 - texture.getWidth()){
+        if(position.x < TheGame.WIDTH / 2 - texture.getWidth()){
             //position = new Vector3(p, y, 0);
         }
         else{
@@ -33,6 +33,10 @@ public class FallingObject extends GameObject{
         if(position.y == 0)
             return true;
         return false;
+    }
+
+    public void toHeart(){
+        texture = AssetLoader.heart;
     }
 
     @Override

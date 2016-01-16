@@ -13,9 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import java.util.ArrayList;
 import java.util.Random;
 
-/**
- * Created by tunde_000 on 31/12/2015.
- */
 public class PlayGame extends State {
     //private FallingObject fallingObject;
     ArrayList<FallingObject> aliveFallingObjects;
@@ -60,19 +57,13 @@ public class PlayGame extends State {
         instructions = new Label(instructionsText, labelStyle);
         instructions.setPosition((cameraWidth / 2) - (instructions.getWidth() / 2), cameraHeight / 2 - 40);
         stage.addActor(instructions);
-        arrow = new Arrow(AssetLoader.arrow, new Vector3(trolleyX, trolleyY + trolley.getTexture().getHeight(), 0), new Vector3(0, 0, 0));
+        arrow = new Arrow(AssetLoader.arrow, new Vector3(trolleyX, trolleyY + (trolley.getTexture().getHeight() / 2), 0), new Vector3(0, 0, 0));
         fallingObjects = new ArrayList<FallingObject>();
         addObject();
         TheGame.activityMethods.hideFbButton();
+        if(TheGame.adsControl.isWifiConnected())
+            TheGame.adsControl.hideBannerAd();
         Gdx.input.setInputProcessor(stage);
-    }
-
-    public void newObjectPerSecond(){
-        if(!fallingObjects.isEmpty()){
-            if(fallingObjects.get(fallingObjects.size() - 1).position.y < ((cameraHeight) / 2)){
-                addObject();
-            }
-        }
     }
 
     public void addObject(){
@@ -122,20 +113,23 @@ public class PlayGame extends State {
 
                 //Check if arrow has gone off screen
                 if(arrow.isArrowOutOfBounds())
-                    arrow = new Arrow(AssetLoader.arrow, new Vector3(trolleyX, trolleyY, 0), new Vector3(trolley.velocity.x, trolley.velocity.y, 0));
+                    arrow = new Arrow(AssetLoader.arrow, new Vector3(trolleyX, trolleyY + (trolley.getTexture().getHeight() / 2), 0), new Vector3(trolley.velocity.x, trolley.velocity.y, 0));
 
                 for(FallingObject y : tempFallingObjects){
                     y.update(dt);
                     if(checkHit(y)){
-                        y.hit();
+                        if(!y.isDead()){
+                            y.hit();
+                            arrow = new Arrow(AssetLoader.arrow, new Vector3(trolleyX, trolleyY + (trolley.getTexture().getHeight() / 2), 0), new Vector3(trolley.velocity.x, trolley.velocity.y, 0));
+                        }
                         score++;
+                        y.toHeart();
                         if(AssetLoader.isSoundOn())
                             AssetLoader.coin.play();
                         if(tempFallingObjects.size() == 1)
                             newObjectNeeded = true;
-                        arrow = new Arrow(AssetLoader.arrow, new Vector3(trolleyX, trolleyY, 0), new Vector3(trolley.velocity.x, trolley.velocity.y, 0));
                     }
-                    if(y.isHitGround() || trolley.isCollide(y.getBounds())){
+                    if((y.isHitGround() && !y.isDead()) || trolley.isCollide(y.getBounds())){
                         lives--;
                         y.hit();
                         System.out.println("LIVES LEFT: " + lives);
@@ -154,10 +148,10 @@ public class PlayGame extends State {
                 }
 
                 trolley.update(dt);
-                arrow.update(dt, trolleyX + (trolley.getTexture().getWidth() / 2) - (arrow.getTexture().getWidth() / 2), trolleyY + (trolley.getTexture().getHeight() - 30), trolley.velocity.x);
+                arrow.update(dt, trolleyX + (trolley.getTexture().getWidth() / 2) - (arrow.getTexture().getWidth() / 2), trolleyY + (trolley.getTexture().getHeight() / 2), trolley.velocity.x);
                 aliveFallingObjects = new ArrayList<FallingObject>();
                 for(FallingObject x : tempFallingObjects){
-                    if(x.isDead() == false)
+                    if(!x.isHitGround())
                         aliveFallingObjects.add(x);
                 }
                 fallingObjects.clear();
@@ -174,7 +168,7 @@ public class PlayGame extends State {
     }
 
     public boolean checkHit(FallingObject x){
-        if(arrow.isCollide(x.getBounds())){
+        if(arrow.isCollide(x.getBounds()) && !x.isDead()){
             return true;
         }
         return false;

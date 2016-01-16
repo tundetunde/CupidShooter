@@ -106,7 +106,6 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 		RelativeLayout.LayoutParams params1 = new RelativeLayout.LayoutParams(
 				ViewGroup.LayoutParams.WRAP_CONTENT,
 				ViewGroup.LayoutParams.WRAP_CONTENT);
-		//params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 		params1.addRule(RelativeLayout.CENTER_IN_PARENT);
 		layout1.addView(loginFB, params1);
 
@@ -286,7 +285,7 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 						}
 						for (int i=0; i< jsonArray.length(); i++) {
 							try {
-								String name = "";
+								String name;
 								JSONObject jsonobject = (JSONObject) jsonArray.get(i);
 								JSONObject user = jsonobject.getJSONObject("user");
 								final int score = jsonobject.optInt("score");

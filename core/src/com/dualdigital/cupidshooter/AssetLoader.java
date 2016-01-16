@@ -9,13 +9,15 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 public class AssetLoader {
     public static Preferences prefs;
     public static Sound coin;
     public static BitmapFont font, shadow, scoreFont, livesLeft;
-    public static Texture background,trolley, splash, christmasPresent, arrow;
+    public static Texture background,trolley, splash, christmasPresent, arrow, heart;
     public static Texture p1, p2, p3, p4, p5;
+    public static TextureAtlas presentsAtlas;
     public static Skin menuSkin;
     public static ImageButton.ImageButtonStyle playStyle, rateStyle, scoreStyle, muteStyle, soundStyle, shareStyle;
     public static Label.LabelStyle labelStyle;
@@ -26,7 +28,7 @@ public class AssetLoader {
         livesLeft = new BitmapFont(Gdx.files.internal("text.fnt"));
         shadow = new BitmapFont(Gdx.files.internal("shadow.fnt"));
         scoreFont = new BitmapFont(Gdx.files.internal("text.fnt"));
-        background = new Texture("backg.png");
+        background = new Texture("splashbg1.png");
         splash = new Texture("splash.png");
         trolley = new Texture("bow.png");
         arrow = new Texture("arrow.png");
@@ -35,13 +37,12 @@ public class AssetLoader {
         labelStyle.font = new BitmapFont(Gdx.files.internal("text.fnt"));
         labelStyle.font.getData().setScale(0.5f, 0.5f);
 
-/*        p1 = new Texture("present1.png");
-        p2 = new Texture("present2.png");
-        p3 = new Texture("present3.png");
-        p4 = new Texture("present4.png");*/
-        p5 = new Texture("redbox.png");
-
-        christmasPresent = p5;
+        p1 = new Texture("present2.png");
+        p2 = new Texture("present3.png");
+        p3 = new Texture("present4.png");
+        p4 = new Texture("present5.png");
+        heart = new Texture("redbox.png");
+        christmasPresent = p4;
 
         menuSkin= new Skin();
         menuSkin.addRegions(new TextureAtlas(Gdx.files.internal("menuButtons.pack")));
