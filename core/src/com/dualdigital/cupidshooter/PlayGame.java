@@ -67,9 +67,10 @@ public class PlayGame extends State {
     }
 
     public void addObject(){
-        Random rand = new Random();
-        int objectInARow = rand.nextInt(3);
-        if(objectInARow == 0)
+        /*Random rand = new Random();
+        int objectInARow = rand.nextInt(3);*/
+        fallingObjects.add(new FallingObject(AssetLoader.christmasPresent ,new Vector3(rand.nextInt(cameraWidth - AssetLoader.christmasPresent.getWidth()), cameraHeight,0)));
+        /*if(objectInARow == 0)
             fallingObjects.add(new FallingObject(AssetLoader.christmasPresent ,new Vector3(rand.nextInt(cameraWidth - AssetLoader.christmasPresent.getWidth()), cameraHeight,0)));
         else if(objectInARow == 1) {
             int x1 = rand.nextInt(cameraWidth - (AssetLoader.christmasPresent.getWidth() * 2));
@@ -80,8 +81,8 @@ public class PlayGame extends State {
             int x2 = x1 + AssetLoader.christmasPresent.getWidth() + 30;
             fallingObjects.add(new FallingObject(AssetLoader.christmasPresent ,new Vector3(x1, cameraHeight,0)));
             fallingObjects.add(new FallingObject(AssetLoader.christmasPresent ,new Vector3(x2, cameraHeight,0)));
-            fallingObjects.add(new FallingObject(AssetLoader.christmasPresent ,new Vector3(x2 + AssetLoader.christmasPresent.getWidth() + 30, cameraHeight,0)));
-        }
+            fallingObjects.add(new FallingObject(AssetLoader.christmasPresent ,new Vector3(x2 + AssetLoader.christmasPresent.getWidth() + 30, cameraHeight,0)));*/
+        //}
     }
 
     @Override
@@ -118,19 +119,19 @@ public class PlayGame extends State {
                 for(FallingObject y : tempFallingObjects){
                     y.update(dt);
                     if(checkHit(y)){
-                        if(!y.isDead()){
+                        /*if(!y.isDead()){
                             y.hit();
                             arrow = new Arrow(AssetLoader.arrow, new Vector3(trolleyX, trolleyY + (trolley.getTexture().getHeight() / 2), 0), new Vector3(trolley.velocity.x, trolley.velocity.y, 0));
-                        }
+                        }*/
+                        y.hit();
                         score++;
-                        y.toHeart();
                         if(AssetLoader.isSoundOn())
                             AssetLoader.coin.play();
                         if(tempFallingObjects.size() == 1)
                             newObjectNeeded = true;
                         //newObjectNeeded = true;
                     }
-                    if((y.isHitGround() && !y.isDead()) || trolley.isCollide(y.getBounds())){
+                    if(y.isHitGround() || trolley.isCollide(y.getBounds())){
                         lives--;
                         y.hit();
                         System.out.println("LIVES LEFT: " + lives);
@@ -155,7 +156,7 @@ public class PlayGame extends State {
                 arrow.update(dt, trolleyX + (trolley.getTexture().getWidth() / 2) - (arrow.getTexture().getWidth() / 2), trolleyY + (trolley.getTexture().getHeight() / 2), trolley.velocity.x);
                 aliveFallingObjects = new ArrayList<FallingObject>();
                 for(FallingObject x : tempFallingObjects){
-                    if(!x.isHitGround())
+                    if(!x.isDead())
                         aliveFallingObjects.add(x);
                 }
                 fallingObjects.clear();
@@ -172,7 +173,7 @@ public class PlayGame extends State {
     }
 
     public boolean checkHit(FallingObject x){
-        if(arrow.isCollide(x.getBounds()) && !x.isDead()){
+        if(arrow.isCollide(x.getBounds())){
             return true;
         }
         return false;

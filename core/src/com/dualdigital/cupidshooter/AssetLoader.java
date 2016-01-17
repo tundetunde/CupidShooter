@@ -17,7 +17,6 @@ public class AssetLoader {
     public static BitmapFont font, shadow, scoreFont, livesLeft;
     public static Texture background,trolley, splash, christmasPresent, arrow, heart;
     public static Texture p1, p2, p3, p4, p5;
-    public static TextureAtlas presentsAtlas;
     public static Skin menuSkin;
     public static ImageButton.ImageButtonStyle playStyle, rateStyle, scoreStyle, muteStyle, soundStyle, shareStyle;
     public static Label.LabelStyle labelStyle;
@@ -37,12 +36,12 @@ public class AssetLoader {
         labelStyle.font = new BitmapFont(Gdx.files.internal("text.fnt"));
         labelStyle.font.getData().setScale(0.5f, 0.5f);
 
-        p1 = new Texture("present2.png");
+        /*p1 = new Texture("present2.png");
         p2 = new Texture("present3.png");
         p3 = new Texture("present4.png");
-        p4 = new Texture("present5.png");
+        p4 = new Texture("present5.png");*/
         heart = new Texture("pink.png");
-        christmasPresent = p4;
+        christmasPresent = heart;
 
         menuSkin= new Skin();
         menuSkin.addRegions(new TextureAtlas(Gdx.files.internal("menuButtons.pack")));
@@ -128,13 +127,14 @@ public class AssetLoader {
         font.dispose();
         shadow.dispose();
         scoreFont.dispose();
-        p1.dispose();
+        /*p1.dispose();
         p2.dispose();
         p3.dispose();
         p4.dispose();
-        p5.dispose();
+        p5.dispose();*/
         splash.dispose();
         menuSkin.dispose();
+        heart.dispose();
         coin.dispose();
         arrow.dispose();
     }
