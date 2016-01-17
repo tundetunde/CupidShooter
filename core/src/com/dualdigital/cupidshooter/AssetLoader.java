@@ -28,9 +28,9 @@ public class AssetLoader {
         livesLeft = new BitmapFont(Gdx.files.internal("text.fnt"));
         shadow = new BitmapFont(Gdx.files.internal("shadow.fnt"));
         scoreFont = new BitmapFont(Gdx.files.internal("text.fnt"));
-        background = new Texture("splashbg1.png");
+        background = new Texture("bg.png");
         splash = new Texture("splash.png");
-        trolley = new Texture("bow.png");
+        trolley = new Texture("cupid.png");
         arrow = new Texture("arrow.png");
 
         labelStyle = new Label.LabelStyle();
