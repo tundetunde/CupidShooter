@@ -29,8 +29,8 @@ public class AssetLoader {
         shadow = new BitmapFont(Gdx.files.internal("shadow.fnt"));
         scoreFont = new BitmapFont(Gdx.files.internal("text.fnt"));
         background = new Texture("bg.png");
-        splash = new Texture("splash.png");
-        trolley = new Texture("cupid.png");
+        splash = new Texture("splash1.png");
+        trolley = new Texture("cupid1.png");
         arrow = new Texture("arrow.png");
 
         labelStyle = new Label.LabelStyle();
@@ -41,7 +41,7 @@ public class AssetLoader {
         p2 = new Texture("present3.png");
         p3 = new Texture("present4.png");
         p4 = new Texture("present5.png");
-        heart = new Texture("redbox.png");
+        heart = new Texture("pink.png");
         christmasPresent = p4;
 
         menuSkin= new Skin();
