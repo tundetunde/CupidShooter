@@ -31,7 +31,7 @@ public class EndGame extends State {
         super(gcm);
         if(TheGame.adsControl.isWifiConnected())
             TheGame.adsControl.showBannerAd();
-        fallingObject = new FallingObject(AssetLoader.christmasPresent , new Vector3((int)presentPosition.x, (int)presentPosition.y,0));
+        fallingObject = new FallingObject(PlayGame.heart , new Vector3((int)presentPosition.x, (int)presentPosition.y,0));
         trolley = new Trolley(AssetLoader.trolley, new Vector3(trolleyPosition.x, trolleyPosition.y ,0));
         background = AssetLoader.background;
         camera.setToOrtho(false, TheGame.WIDTH / 2, TheGame.HEIGHT / 2);

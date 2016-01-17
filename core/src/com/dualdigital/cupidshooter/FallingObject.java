@@ -35,10 +35,6 @@ public class FallingObject extends GameObject{
         return false;
     }
 
-    public void toHeart(){
-        texture = AssetLoader.heart;
-    }
-
     @Override
     public void update(float dt) {
         if(position.y > 0)

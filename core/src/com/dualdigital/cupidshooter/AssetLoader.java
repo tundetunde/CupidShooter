@@ -15,8 +15,8 @@ public class AssetLoader {
     public static Preferences prefs;
     public static Sound coin;
     public static BitmapFont font, shadow, scoreFont, livesLeft;
-    public static Texture background,trolley, splash, christmasPresent, arrow, heart;
-    public static Texture p1, p2, p3, p4, p5;
+    public static Texture background,trolley, splash, arrow;
+    public static Texture h1, h2, h3, h4, h5, h6;
     public static Skin menuSkin;
     public static ImageButton.ImageButtonStyle playStyle, rateStyle, scoreStyle, muteStyle, soundStyle, shareStyle;
     public static Label.LabelStyle labelStyle;
@@ -28,20 +28,20 @@ public class AssetLoader {
         shadow = new BitmapFont(Gdx.files.internal("shadow.fnt"));
         scoreFont = new BitmapFont(Gdx.files.internal("text.fnt"));
         background = new Texture("bg.png");
-        splash = new Texture("splash1.png");
-        trolley = new Texture("cupid1.png");
+        splash = new Texture("splash.png");
+        trolley = new Texture("cupid.png");
         arrow = new Texture("arrow.png");
 
         labelStyle = new Label.LabelStyle();
         labelStyle.font = new BitmapFont(Gdx.files.internal("text.fnt"));
         labelStyle.font.getData().setScale(0.5f, 0.5f);
 
-        /*p1 = new Texture("present2.png");
-        p2 = new Texture("present3.png");
-        p3 = new Texture("present4.png");
-        p4 = new Texture("present5.png");*/
-        heart = new Texture("pink.png");
-        christmasPresent = heart;
+        h1 = new Texture("yellow.png");
+        h2 = new Texture("wine.png");
+        h3 = new Texture("green.png");
+        h4 = new Texture("orange.png");
+        h5 = new Texture("blue.png");
+        h6 = new Texture("pink.png");
 
         menuSkin= new Skin();
         menuSkin.addRegions(new TextureAtlas(Gdx.files.internal("menuButtons.pack")));
@@ -123,18 +123,17 @@ public class AssetLoader {
     public static void dispose(){
         background.dispose();
         trolley.dispose();
-        christmasPresent.dispose();
         font.dispose();
         shadow.dispose();
         scoreFont.dispose();
-        /*p1.dispose();
-        p2.dispose();
-        p3.dispose();
-        p4.dispose();
-        p5.dispose();*/
+        h1.dispose();
+        h2.dispose();
+        h3.dispose();
+        h4.dispose();
+        h5.dispose();
+        h6.dispose();
         splash.dispose();
         menuSkin.dispose();
-        heart.dispose();
         coin.dispose();
         arrow.dispose();
     }

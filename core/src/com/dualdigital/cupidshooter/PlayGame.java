@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class PlayGame extends State {
-    //private FallingObject fallingObject;
     ArrayList<FallingObject> aliveFallingObjects;
     private Trolley trolley;
     private Texture background;
@@ -33,7 +32,7 @@ public class PlayGame extends State {
     private BitmapFont scorefont;
     private Arrow arrow;
     private ArrayList<FallingObject> fallingObjects;
-
+    static Texture heart;
 
     protected PlayGame(GameStateManager gcm) {
         super(gcm);
@@ -67,9 +66,16 @@ public class PlayGame extends State {
     }
 
     public void addObject(){
+        int hnum = new Random().nextInt(6)+1;
+        if(hnum==1){heart=AssetLoader.h1;}
+        else if(hnum==2){heart=AssetLoader.h2;}
+        else if(hnum==3){heart=AssetLoader.h3;}
+        else if(hnum==4){heart=AssetLoader.h4;}
+        else if(hnum==5){heart=AssetLoader.h5;}
+        else {heart=AssetLoader.h6;}
         /*Random rand = new Random();
         int objectInARow = rand.nextInt(3);*/
-        fallingObjects.add(new FallingObject(AssetLoader.christmasPresent ,new Vector3(rand.nextInt(cameraWidth - AssetLoader.christmasPresent.getWidth()), cameraHeight,0)));
+        fallingObjects.add(new FallingObject(heart ,new Vector3(rand.nextInt(cameraWidth - heart.getWidth()), cameraHeight,0)));
         /*if(objectInARow == 0)
             fallingObjects.add(new FallingObject(AssetLoader.christmasPresent ,new Vector3(rand.nextInt(cameraWidth - AssetLoader.christmasPresent.getWidth()), cameraHeight,0)));
         else if(objectInARow == 1) {
