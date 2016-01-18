@@ -9,13 +9,12 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 public class AssetLoader {
     public static Preferences prefs;
     public static Sound coin;
     public static BitmapFont font, shadow, scoreFont, livesLeft;
-    public static Texture background,trolley, splash, arrow;
+    public static Texture background, shooter, splash, arrow;
     public static Texture h1, h2, h3, h4, h5, h6;
     public static Skin menuSkin;
     public static ImageButton.ImageButtonStyle playStyle, rateStyle, scoreStyle, muteStyle, soundStyle, shareStyle;
@@ -29,7 +28,7 @@ public class AssetLoader {
         scoreFont = new BitmapFont(Gdx.files.internal("text.fnt"));
         background = new Texture("bg.png");
         splash = new Texture("splash.png");
-        trolley = new Texture("cupid.png");
+        shooter = new Texture("cupid.png");
         arrow = new Texture("arrow.png");
 
         labelStyle = new Label.LabelStyle();
@@ -122,7 +121,7 @@ public class AssetLoader {
 
     public static void dispose(){
         background.dispose();
-        trolley.dispose();
+        shooter.dispose();
         font.dispose();
         shadow.dispose();
         scoreFont.dispose();

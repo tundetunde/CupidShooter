@@ -7,9 +7,9 @@ import com.badlogic.gdx.math.Vector3;
 /**
  * Created by tunde_000 on 31/12/2015.
  */
-public class Trolley extends GameObject {
+public class Shooter extends GameObject {
 
-    public Trolley(Texture texture, Vector3 position) {
+    public Shooter(Texture texture, Vector3 position) {
         super(texture, position, new Vector3(0,0,0));
     }
 

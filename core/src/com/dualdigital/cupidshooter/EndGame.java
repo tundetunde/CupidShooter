@@ -17,7 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 public class EndGame extends State {
     private Texture background;
     private FallingObject fallingObject;
-    private Trolley trolley;
+    private Shooter shooter;
     private BitmapFont font, scorefont, shadow;
     private Label.LabelStyle labelStyle;
     private ImageButton playButton,leaderBoardButton,rateButton, muteButton, shareButton;
@@ -27,12 +27,12 @@ public class EndGame extends State {
     Stage stage;
     private Label scoreBoard;
 
-    protected EndGame(GameStateManager gcm, Vector3 presentPosition, Vector3 trolleyPosition, long score) {
+    protected EndGame(GameStateManager gcm, Vector3 presentPosition, Vector3 shooterPosition, long score) {
         super(gcm);
         if(TheGame.adsControl.isWifiConnected())
             TheGame.adsControl.showBannerAd();
         fallingObject = new FallingObject(PlayGame.heart , new Vector3((int)presentPosition.x, (int)presentPosition.y,0));
-        trolley = new Trolley(AssetLoader.trolley, new Vector3(trolleyPosition.x, trolleyPosition.y ,0));
+        shooter = new Shooter(AssetLoader.shooter, new Vector3(shooterPosition.x, shooterPosition.y ,0));
         background = AssetLoader.background;
         camera.setToOrtho(false, TheGame.WIDTH / 2, TheGame.HEIGHT / 2);
         font = AssetLoader.font;
@@ -145,7 +145,7 @@ public class EndGame extends State {
         sb.begin();
         sb.draw(background, camera.position.x - (camera.viewportWidth / 2), 0);
         sb.draw(fallingObject.getTexture(), fallingObject.getPosition().x, fallingObject.getPosition().y);
-        sb.draw(trolley.getTexture(), trolley.getPosition().x, trolley.getPosition().y);
+        sb.draw(shooter.getTexture(), shooter.getPosition().x, shooter.getPosition().y);
         String over = "GAME OVER";
         shadow.draw(sb, over, (TheGame.WIDTH / 4) - (over.length() * 27), (cameraHeight / 10) * 9);
         font.draw(sb, over, (TheGame.WIDTH / 4) - (over.length() * 27), (cameraHeight / 10) * 9);

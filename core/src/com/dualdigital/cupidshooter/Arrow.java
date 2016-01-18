@@ -25,7 +25,7 @@ public class Arrow extends GameObject {
     }
 
     public void update(float dt, float x, float y, float velocityX){
-        //If it hasnt been shot, move with trolley
+        //If it hasnt been shot, move with shooter
         if(!shoot){
             position.x = x;
             position.y = y;

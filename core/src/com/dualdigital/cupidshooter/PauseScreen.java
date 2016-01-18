@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 public class PauseScreen extends State {
     private Texture background;
     private FallingObject fallingObject;
-    private Trolley trolley;
+    private Shooter shooter;
     private BitmapFont font;
     private BitmapFont scorefont;
     private BitmapFont shadow;
@@ -30,7 +30,7 @@ public class PauseScreen extends State {
         super(gcm);
         /*if(TheGame.adsControl.isWifiConnected())
             TheGame.adsControl.showBannerAd();*/
-        trolley = new Trolley(AssetLoader.trolley, new Vector3(PlayGame.trolleyX, PlayGame.trolleyY, 0));
+        shooter = new Shooter(AssetLoader.shooter, new Vector3(PlayGame.shooterX, PlayGame.shooterY, 0));
         background = AssetLoader.background;
         camera.setToOrtho(false, TheGame.WIDTH / 2, TheGame.HEIGHT / 2);
         font = AssetLoader.font;
@@ -61,7 +61,7 @@ public class PauseScreen extends State {
         sb.setProjectionMatrix(camera.combined);
         sb.begin();
         sb.draw(background, camera.position.x - (camera.viewportWidth / 2), 0);
-        sb.draw(trolley.getTexture(), trolley.getPosition().x, trolley.getPosition().y);
+        sb.draw(shooter.getTexture(), shooter.getPosition().x, shooter.getPosition().y);
         String scoreString = "PAUSED";
         shadow.draw(sb, scoreString, TheGame.WIDTH / 4 - scoreString.length() * 10, (TheGame.HEIGHT / 8) * 3);
         font.draw(sb, scoreString, TheGame.WIDTH / 4 - scoreString.length() * 10, (TheGame.HEIGHT / 8) * 3);

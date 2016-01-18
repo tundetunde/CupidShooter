@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -15,7 +14,7 @@ import java.util.Random;
 
 public class PlayGame extends State {
     ArrayList<FallingObject> aliveFallingObjects;
-    private Trolley trolley;
+    private Shooter shooter;
     private Texture background;
     private Random rand;
     private static long score;
@@ -26,7 +25,7 @@ public class PlayGame extends State {
     int cameraWidth = TheGame.WIDTH / 2;
     int cameraHeight = TheGame.HEIGHT / 2;
     Stage stage = new Stage();
-    public static int trolleyX, trolleyY;
+    public static int shooterX, shooterY;
     private Label.LabelStyle labelStyle;
     private Label instructions;
     private BitmapFont scorefont;
@@ -39,7 +38,7 @@ public class PlayGame extends State {
         lives = 3;
         rand = new Random();
         AssetLoader.setMotionControl(true);
-        trolley = new Trolley(AssetLoader.trolley, new Vector3(0, 0 ,0));
+        shooter = new Shooter(AssetLoader.shooter, new Vector3(0, 0 ,0));
         background = AssetLoader.background;
         camera.setToOrtho(false, TheGame.WIDTH / 2, TheGame.HEIGHT / 2);
         score = 0;
@@ -52,11 +51,11 @@ public class PlayGame extends State {
         scorefont = AssetLoader.scoreFont;
         scorefont.getData().setScale(0.6f, 0.6f);
         labelStyle = new Label.LabelStyle(scorefont, Color.PURPLE);
-        String instructionsText = "Tilt the screen left or right to move the trolley\nTap the screen to shoot arrow\nTo Play, Tap Screen!";
+        String instructionsText = "Tilt the screen left or right to move the shooter\nTap the screen to shoot arrow\nTo Play, Tap Screen!";
         instructions = new Label(instructionsText, labelStyle);
         instructions.setPosition((cameraWidth / 2) - (instructions.getWidth() / 2), cameraHeight / 2 - 40);
         stage.addActor(instructions);
-        arrow = new Arrow(AssetLoader.arrow, new Vector3(trolleyX, trolleyY + (trolley.getTexture().getHeight() / 2), 0), new Vector3(0, 0, 0));
+        arrow = new Arrow(AssetLoader.arrow, new Vector3(shooterX, shooterY + (shooter.getTexture().getHeight() / 2), 0), new Vector3(0, 0, 0));
         fallingObjects = new ArrayList<FallingObject>();
         addObject();
         TheGame.activityMethods.hideFbButton();
@@ -73,8 +72,6 @@ public class PlayGame extends State {
         else if(hnum==4){heart=AssetLoader.h4;}
         else if(hnum==5){heart=AssetLoader.h5;}
         else {heart=AssetLoader.h6;}
-        /*Random rand = new Random();
-        int objectInARow = rand.nextInt(3);*/
         fallingObjects.add(new FallingObject(heart ,new Vector3(rand.nextInt(cameraWidth - heart.getWidth()), cameraHeight,0)));
         /*if(objectInARow == 0)
             fallingObjects.add(new FallingObject(AssetLoader.christmasPresent ,new Vector3(rand.nextInt(cameraWidth - AssetLoader.christmasPresent.getWidth()), cameraHeight,0)));
@@ -94,7 +91,7 @@ public class PlayGame extends State {
     @Override
     protected void handleInput() {
         float x = Gdx.input.getAccelerometerX();
-        trolley.move(-x);
+        shooter.move(-x);
 
         //If user has touched screen, shoot arrow
         if(Gdx.input.justTouched())
@@ -104,8 +101,8 @@ public class PlayGame extends State {
     @Override
     public void update(float dt) {
         boolean newObjectNeeded = false;
-        trolleyX = (int)trolley.getPosition().x;
-        trolleyY = (int)trolley.getPosition().y;
+        shooterX = (int)shooter.getPosition().x;
+        shooterY = (int)shooter.getPosition().y;
         ArrayList<FallingObject> tempFallingObjects = new ArrayList<FallingObject>();
         tempFallingObjects.addAll(fallingObjects);
         if(TheGame.isGameOn()){
@@ -120,14 +117,14 @@ public class PlayGame extends State {
 
                 //Check if arrow has gone off screen
                 if(arrow.isArrowOutOfBounds())
-                    arrow = new Arrow(AssetLoader.arrow, new Vector3(trolleyX, trolleyY + (trolley.getTexture().getHeight() / 2), 0), new Vector3(trolley.velocity.x, trolley.velocity.y, 0));
+                    arrow = new Arrow(AssetLoader.arrow, new Vector3(shooterX, shooterY + (shooter.getTexture().getHeight() / 2), 0), new Vector3(shooter.velocity.x, shooter.velocity.y, 0));
 
                 for(FallingObject y : tempFallingObjects){
                     y.update(dt);
                     if(checkHit(y)){
                         /*if(!y.isDead()){
                             y.hit();
-                            arrow = new Arrow(AssetLoader.arrow, new Vector3(trolleyX, trolleyY + (trolley.getTexture().getHeight() / 2), 0), new Vector3(trolley.velocity.x, trolley.velocity.y, 0));
+                            arrow = new Arrow(AssetLoader.arrow, new Vector3(shooterX, shooterY + (shooter.getTexture().getHeight() / 2), 0), new Vector3(shooter.velocity.x, shooter.velocity.y, 0));
                         }*/
                         y.hit();
                         score++;
@@ -137,7 +134,7 @@ public class PlayGame extends State {
                             newObjectNeeded = true;
                         //newObjectNeeded = true;
                     }
-                    if(y.isHitGround() || trolley.isCollide(y.getBounds())){
+                    if(y.isHitGround() || shooter.isCollide(y.getBounds())){
                         lives--;
                         y.hit();
                         System.out.println("LIVES LEFT: " + lives);
@@ -148,7 +145,7 @@ public class PlayGame extends State {
                                     TheGame.activityMethods.postFacebookScore(score);
                                 }
                             }
-                            gcm.set(new EndGame(gcm, y.getPosition(), trolley.getPosition(), score));
+                            gcm.set(new EndGame(gcm, y.getPosition(), shooter.getPosition(), score));
                         }else{
                             newObjectNeeded = true;
                         }
@@ -158,8 +155,8 @@ public class PlayGame extends State {
                     }
                 }
 
-                trolley.update(dt);
-                arrow.update(dt, trolleyX + (trolley.getTexture().getWidth() / 2) - (arrow.getTexture().getWidth() / 2), trolleyY + (trolley.getTexture().getHeight() / 2), trolley.velocity.x);
+                shooter.update(dt);
+                arrow.update(dt, shooterX + (shooter.getTexture().getWidth() / 2) - (arrow.getTexture().getWidth() / 2), shooterY + (shooter.getTexture().getHeight() / 2), shooter.velocity.x);
                 aliveFallingObjects = new ArrayList<FallingObject>();
                 for(FallingObject x : tempFallingObjects){
                     if(!x.isDead())
@@ -194,8 +191,8 @@ public class PlayGame extends State {
             for(FallingObject x: fallingObjects){
                 sb.draw(x.getTexture(), x.getPosition().x, x.getPosition().y);
             }
-            sb.draw(trolley.getTexture(), trolley.getPosition().x, trolley.getPosition().y);
-            sb.draw(arrow.arrowSprite, arrow.getPosition().x, arrow.getPosition().y);
+            sb.draw(arrow.arrowSprite, arrow.getPosition().x+2, arrow.getPosition().y);
+            sb.draw(shooter.getTexture(), shooter.getPosition().x, shooter.getPosition().y);
             String scoreString = Long.toString(score);
             String livesLeft = "Lives: " + Long.toString(lives);
             livesText.draw(sb, livesLeft, 0, TheGame.HEIGHT / 2 - 30);
@@ -211,7 +208,7 @@ public class PlayGame extends State {
                 sb.draw(x.getTexture(), x.getPosition().x, x.getPosition().y);
             }
 
-            sb.draw(trolley.getTexture(), trolley.getPosition().x, trolley.getPosition().y);
+            sb.draw(shooter.getTexture(), shooter.getPosition().x, shooter.getPosition().y);
             String h = "TAP TO CONTINUE";
             shadow.draw(sb, h, TheGame.WIDTH / 4 - h.length() * 10, (TheGame.HEIGHT / 8) * 3);
             font.draw(sb, h, TheGame.WIDTH / 4 - h.length() * 10, (TheGame.HEIGHT / 8) * 3);
