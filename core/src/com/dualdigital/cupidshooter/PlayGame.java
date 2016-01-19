@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class PlayGame extends State {
-    ArrayList<FallingObject> aliveFallingObjects;
     private Shooter shooter;
     private Texture background;
     private Random rand;
@@ -29,7 +28,8 @@ public class PlayGame extends State {
     private Label.LabelStyle labelStyle;
     private Label instructions;
     private BitmapFont scorefont;
-    private Arrow arrow;
+    //private Arrow arrow;
+    private ArrayList<Arrow> arrowList;
     private ArrayList<FallingObject> fallingObjects;
     static Texture heart;
     private float timer, lastTimer = 0;
@@ -57,7 +57,9 @@ public class PlayGame extends State {
         instructions = new Label(instructionsText, labelStyle);
         instructions.setPosition((cameraWidth / 2) - (instructions.getWidth() / 2), cameraHeight / 2 - 40);
         stage.addActor(instructions);
-        arrow = new Arrow(AssetLoader.arrow, new Vector3(shooterX, shooterY + (shooter.getTexture().getHeight() / 2), 0), new Vector3(0, 0, 0));
+        arrowList = new ArrayList<Arrow>();
+        arrowList.add(new Arrow(AssetLoader.arrow, new Vector3(shooterX, shooterY + (shooter.getTexture().getHeight() / 2), 0), new Vector3(0, 0, 0)));
+        //arrow = new Arrow(AssetLoader.arrow, new Vector3(shooterX, shooterY + (shooter.getTexture().getHeight() / 2), 0), new Vector3(0, 0, 0));
         fallingObjects = new ArrayList<FallingObject>();
         addObject();
         TheGame.activityMethods.hideFbButton();
@@ -74,7 +76,7 @@ public class PlayGame extends State {
         else if(hnum==4){heart=AssetLoader.h4;}
         else if(hnum==5){heart=AssetLoader.h5;}
         else {heart=AssetLoader.h6;}
-        fallingObjects.add(new FallingObject(heart ,new Vector3(rand.nextInt(cameraWidth - heart.getWidth() - shooter.getTexture().getWidth()) + shooter.getTexture().getWidth() + arrow.getTexture().getWidth(), cameraHeight,0)));
+        fallingObjects.add(new FallingObject(heart ,new Vector3(rand.nextInt(cameraWidth - heart.getWidth() - shooter.getTexture().getWidth()) + shooter.getTexture().getWidth() + AssetLoader.arrow.getWidth(), cameraHeight,0)));
     }
 
     @Override
@@ -83,8 +85,11 @@ public class PlayGame extends State {
         shooter.move(-x);
 
         //If user has touched screen, shoot arrow
-        if(Gdx.input.justTouched())
-            arrow.setShoot(true, x);
+        if(Gdx.input.justTouched()){
+            arrowList.get(arrowList.size() - 1).setShoot(true, x);
+            arrowList.add(new Arrow(AssetLoader.arrow, new Vector3(shooterX, shooterY + (shooter.getTexture().getHeight() / 2), 0), new Vector3(0, 0, 0)));
+        }
+            //arrow.setShoot(true, x);
     }
 
     @Override
@@ -111,19 +116,27 @@ public class PlayGame extends State {
                 }
 
                 //Check if arrow has gone off screen
-                if(arrow.isArrowOutOfBounds())
-                    arrow = new Arrow(AssetLoader.arrow, new Vector3(shooterX, shooterY + (shooter.getTexture().getHeight() / 2), 0), new Vector3(shooter.velocity.x, shooter.velocity.y, 0));
+                for(int j = 0; j < arrowList.size(); j++){
+                    if(arrowList.get(j).isArrowOutOfBounds()){
+                        arrowList.remove(j);
+                    }
+                }
+                /*if(arrow.isArrowOutOfBounds())
+                    arrow = new Arrow(AssetLoader.arrow, new Vector3(shooterX, shooterY + (shooter.getTexture().getHeight() / 2), 0), new Vector3(shooter.velocity.x, shooter.velocity.y, 0));*/
 
 
                 for(int i = 0; i<fallingObjects.size(); i++){
                     FallingObject obj = fallingObjects.get(i);
                     obj.update(dt);
-                    if(checkHit(obj)){
-                        fallingObjects.remove(i);
-                        score++;
-                        if(AssetLoader.isSoundOn())
-                            AssetLoader.coin.play();
+                    for(Arrow arrow: arrowList){
+                        if(checkHit(obj, arrow)){
+                            fallingObjects.remove(i);
+                            score++;
+                            if(AssetLoader.isSoundOn())
+                                AssetLoader.coin.play();
+                        }
                     }
+
                     if(obj.isHitGround() || shooter.isCollide(obj.getBounds())){
                         //if an object is missed and hits the ground
                         lives--;
@@ -142,7 +155,10 @@ public class PlayGame extends State {
                 }
 
                 shooter.update(dt);
-                arrow.update(dt, shooterX + (shooter.getTexture().getWidth() / 2) - (arrow.getTexture().getWidth() / 2), shooterY + (shooter.getTexture().getHeight() / 2), shooter.velocity.x);
+                for(Arrow arrow: arrowList){
+                    arrow.update(dt, shooterX + (shooter.getTexture().getWidth() / 2) - (arrow.getTexture().getWidth() / 2), shooterY + (shooter.getTexture().getHeight() / 2), shooter.velocity.x);
+                }
+
             }
         }else{
             //to resume game from pause
@@ -152,7 +168,7 @@ public class PlayGame extends State {
         }
     }
 
-    public boolean checkHit(FallingObject x){
+    public boolean checkHit(FallingObject x, Arrow arrow){
         return arrow.isCollide(x.getBounds());
     }
 
@@ -165,7 +181,9 @@ public class PlayGame extends State {
             for(FallingObject x: fallingObjects){
                 sb.draw(x.getTexture(), x.getPosition().x, x.getPosition().y);
             }
-            sb.draw(arrow.arrowSprite, arrow.getPosition().x, arrow.getPosition().y);
+            for(Arrow arrow: arrowList){
+                sb.draw(arrow.arrowSprite, arrow.getPosition().x, arrow.getPosition().y);
+            }
             sb.draw(shooter.getTexture(), shooter.getPosition().x, shooter.getPosition().y);
             String scoreString = Long.toString(score);
             String livesLeft = "Lives: " + Long.toString(lives);
