@@ -27,7 +27,7 @@ public class Arrow extends GameObject {
     public void update(float dt, float x, float y, float velocityX){
         //If it hasnt been shot, move with shooter
         if(!shoot){
-            position.x = x;
+            position.x = x+25;
             position.y = y;
             position.add(velocity.x, velocity.y, 0);
         }else{
@@ -69,8 +69,6 @@ public class Arrow extends GameObject {
     }
 
     public boolean isArrowOutOfBounds(){
-        if(position.x >= TheGame.WIDTH / 2)
-            return true;
-        return false;
+        return position.x >= TheGame.WIDTH / 2;
     }
 }

@@ -19,6 +19,17 @@ android {
         minSdkVersion 8
         targetSdkVersion 23
     }
+    buildTypes {
+        release {
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def file = output.outputFile
+                    def fileName = "DD_love-shots.apk";
+                    output.outputFile = new File(file.parent, fileName);
+                }
+            }
+        }
+    }
 }
 
 dependencies {

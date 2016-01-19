@@ -14,8 +14,9 @@ public class FallingObject extends GameObject{
         super(texture, position, new Vector3(0,0,0));
         if(position.x < TheGame.WIDTH / 2 - texture.getWidth()){
             //position = new Vector3(p, y, 0);
-        }
-        else{
+        }else if(position.x <= texture.getWidth()){
+            position.x+=texture.getWidth()+30;
+        }else{
             position.x = position.x - texture.getWidth();
         }
         dead = false;

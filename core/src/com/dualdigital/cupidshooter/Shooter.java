@@ -29,7 +29,7 @@ public class Shooter extends GameObject {
         velocity.y = (y * 3);
     }
 
-    public boolean isCollide(Rectangle present){
-        return present.overlaps(bounds);
+    public boolean isCollide(Rectangle shooter){
+        return shooter.overlaps(bounds);
     }
 }

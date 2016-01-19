@@ -25,13 +25,15 @@ public class PlayGame extends State {
     int cameraWidth = TheGame.WIDTH / 2;
     int cameraHeight = TheGame.HEIGHT / 2;
     Stage stage = new Stage();
-    public static int shooterX, shooterY;
+    public static int shooterX, shooterY, arrowX;
     private Label.LabelStyle labelStyle;
     private Label instructions;
     private BitmapFont scorefont;
     private Arrow arrow;
     private ArrayList<FallingObject> fallingObjects;
     static Texture heart;
+    private float timer, lastTimer = 0;
+    private double timeIntervals = 1.0;
 
     protected PlayGame(GameStateManager gcm) {
         super(gcm);
@@ -73,19 +75,6 @@ public class PlayGame extends State {
         else if(hnum==5){heart=AssetLoader.h5;}
         else {heart=AssetLoader.h6;}
         fallingObjects.add(new FallingObject(heart ,new Vector3(rand.nextInt(cameraWidth - heart.getWidth()), cameraHeight,0)));
-        /*if(objectInARow == 0)
-            fallingObjects.add(new FallingObject(AssetLoader.christmasPresent ,new Vector3(rand.nextInt(cameraWidth - AssetLoader.christmasPresent.getWidth()), cameraHeight,0)));
-        else if(objectInARow == 1) {
-            int x1 = rand.nextInt(cameraWidth - (AssetLoader.christmasPresent.getWidth() * 2));
-            fallingObjects.add(new FallingObject(AssetLoader.christmasPresent, new Vector3(x1, cameraHeight, 0)));
-            fallingObjects.add(new FallingObject(AssetLoader.christmasPresent, new Vector3(x1 + AssetLoader.christmasPresent.getWidth() + 30, cameraHeight, 0)));
-        }else if(objectInARow == 2){
-            int x1 = rand.nextInt(cameraWidth - (AssetLoader.christmasPresent.getWidth() * 3));
-            int x2 = x1 + AssetLoader.christmasPresent.getWidth() + 30;
-            fallingObjects.add(new FallingObject(AssetLoader.christmasPresent ,new Vector3(x1, cameraHeight,0)));
-            fallingObjects.add(new FallingObject(AssetLoader.christmasPresent ,new Vector3(x2, cameraHeight,0)));
-            fallingObjects.add(new FallingObject(AssetLoader.christmasPresent ,new Vector3(x2 + AssetLoader.christmasPresent.getWidth() + 30, cameraHeight,0)));*/
-        //}
     }
 
     @Override
@@ -100,12 +89,11 @@ public class PlayGame extends State {
 
     @Override
     public void update(float dt) {
-        boolean newObjectNeeded = false;
+        Random randTime = new Random();
         shooterX = (int)shooter.getPosition().x;
         shooterY = (int)shooter.getPosition().y;
-        ArrayList<FallingObject> tempFallingObjects = new ArrayList<FallingObject>();
-        tempFallingObjects.addAll(fallingObjects);
         if(TheGame.isGameOn()){
+            //if the game is active atm ...enter here
             if(AssetLoader.isFirstTime()){
                 if(Gdx.input.justTouched()){
                     AssetLoader.setFirstTime(false);
@@ -114,29 +102,32 @@ public class PlayGame extends State {
             }else{
                 instructions.setVisible(false);
                 handleInput();
+                //times the object to drop every second
+                timer += Gdx.graphics.getDeltaTime();
+                if(timer-lastTimer > timeIntervals){
+                    addObject();
+                    lastTimer = timer;
+                    timeIntervals = (randTime.nextInt(31) / 10) + 0.5;
+                }
 
                 //Check if arrow has gone off screen
                 if(arrow.isArrowOutOfBounds())
                     arrow = new Arrow(AssetLoader.arrow, new Vector3(shooterX, shooterY + (shooter.getTexture().getHeight() / 2), 0), new Vector3(shooter.velocity.x, shooter.velocity.y, 0));
 
-                for(FallingObject y : tempFallingObjects){
-                    y.update(dt);
-                    if(checkHit(y)){
-                        /*if(!y.isDead()){
-                            y.hit();
-                            arrow = new Arrow(AssetLoader.arrow, new Vector3(shooterX, shooterY + (shooter.getTexture().getHeight() / 2), 0), new Vector3(shooter.velocity.x, shooter.velocity.y, 0));
-                        }*/
-                        y.hit();
+
+                for(int i = 0; i<fallingObjects.size(); i++){
+                    FallingObject obj = fallingObjects.get(i);
+                    obj.update(dt);
+                    if(checkHit(obj)){
+                        fallingObjects.remove(i);
                         score++;
                         if(AssetLoader.isSoundOn())
                             AssetLoader.coin.play();
-                        if(tempFallingObjects.size() == 1)
-                            newObjectNeeded = true;
-                        //newObjectNeeded = true;
                     }
-                    if(y.isHitGround() || shooter.isCollide(y.getBounds())){
+                    if(obj.isHitGround() || shooter.isCollide(obj.getBounds())){
+                        //if an object is missed and hits the ground
                         lives--;
-                        y.hit();
+                        fallingObjects.remove(i);
                         System.out.println("LIVES LEFT: " + lives);
                         if(lives == 0){
                             if (score > AssetLoader.getHighScore()) {
@@ -145,30 +136,16 @@ public class PlayGame extends State {
                                     TheGame.activityMethods.postFacebookScore(score);
                                 }
                             }
-                            gcm.set(new EndGame(gcm, y.getPosition(), shooter.getPosition(), score));
-                        }else{
-                            newObjectNeeded = true;
+                            gcm.set(new EndGame(gcm, obj.getPosition(), shooter.getPosition(), score));
                         }
-                    }
-                    if(y.isHitGround()){
-                        newObjectNeeded = true;
                     }
                 }
 
                 shooter.update(dt);
                 arrow.update(dt, shooterX + (shooter.getTexture().getWidth() / 2) - (arrow.getTexture().getWidth() / 2), shooterY + (shooter.getTexture().getHeight() / 2), shooter.velocity.x);
-                aliveFallingObjects = new ArrayList<FallingObject>();
-                for(FallingObject x : tempFallingObjects){
-                    if(!x.isDead())
-                        aliveFallingObjects.add(x);
-                }
-                fallingObjects.clear();
-                if(newObjectNeeded)
-                    addObject();
-                fallingObjects.addAll(aliveFallingObjects);
-                //newObjectPerSecond();
             }
         }else{
+            //to resume game from pause
             if (Gdx.input.justTouched()){
                 addObject();
             }
@@ -176,10 +153,7 @@ public class PlayGame extends State {
     }
 
     public boolean checkHit(FallingObject x){
-        if(arrow.isCollide(x.getBounds())){
-            return true;
-        }
-        return false;
+        return arrow.isCollide(x.getBounds());
     }
 
     @Override
@@ -191,7 +165,7 @@ public class PlayGame extends State {
             for(FallingObject x: fallingObjects){
                 sb.draw(x.getTexture(), x.getPosition().x, x.getPosition().y);
             }
-            sb.draw(arrow.arrowSprite, arrow.getPosition().x+2, arrow.getPosition().y);
+            sb.draw(arrow.arrowSprite, arrow.getPosition().x, arrow.getPosition().y);
             sb.draw(shooter.getTexture(), shooter.getPosition().x, shooter.getPosition().y);
             String scoreString = Long.toString(score);
             String livesLeft = "Lives: " + Long.toString(lives);
@@ -219,13 +193,5 @@ public class PlayGame extends State {
     @Override
     public void dispose() {
 
-    }
-
-    public long getScore() {
-        return score;
-    }
-
-    public void setScore(long score) {
-        this.score = score;
     }
 }
