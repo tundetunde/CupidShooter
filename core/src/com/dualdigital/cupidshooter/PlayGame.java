@@ -28,7 +28,6 @@ public class PlayGame extends State {
     private Label.LabelStyle labelStyle;
     private Label instructions;
     private BitmapFont scorefont;
-    //private Arrow arrow;
     private ArrayList<Arrow> arrowList;
     private ArrayList<FallingObject> fallingObjects;
     static Texture heart;
@@ -59,7 +58,6 @@ public class PlayGame extends State {
         stage.addActor(instructions);
         arrowList = new ArrayList<Arrow>();
         arrowList.add(new Arrow(AssetLoader.arrow, new Vector3(shooterX, shooterY + (shooter.getTexture().getHeight() / 2), 0), new Vector3(0, 0, 0)));
-        //arrow = new Arrow(AssetLoader.arrow, new Vector3(shooterX, shooterY + (shooter.getTexture().getHeight() / 2), 0), new Vector3(0, 0, 0));
         fallingObjects = new ArrayList<FallingObject>();
         addObject();
         TheGame.activityMethods.hideFbButton();
@@ -89,7 +87,6 @@ public class PlayGame extends State {
             arrowList.get(arrowList.size() - 1).setShoot(true, x);
             arrowList.add(new Arrow(AssetLoader.arrow, new Vector3(shooterX, shooterY + (shooter.getTexture().getHeight() / 2), 0), new Vector3(0, 0, 0)));
         }
-            //arrow.setShoot(true, x);
     }
 
     @Override
@@ -121,9 +118,6 @@ public class PlayGame extends State {
                         arrowList.remove(j);
                     }
                 }
-                /*if(arrow.isArrowOutOfBounds())
-                    arrow = new Arrow(AssetLoader.arrow, new Vector3(shooterX, shooterY + (shooter.getTexture().getHeight() / 2), 0), new Vector3(shooter.velocity.x, shooter.velocity.y, 0));*/
-
 
                 for(int i = 0; i<fallingObjects.size(); i++){
                     FallingObject obj = fallingObjects.get(i);
