@@ -74,7 +74,7 @@ public class PlayGame extends State {
         else if(hnum==4){heart=AssetLoader.h4;}
         else if(hnum==5){heart=AssetLoader.h5;}
         else {heart=AssetLoader.h6;}
-        fallingObjects.add(new FallingObject(heart ,new Vector3(rand.nextInt(cameraWidth - heart.getWidth()), cameraHeight,0)));
+        fallingObjects.add(new FallingObject(heart ,new Vector3(rand.nextInt(cameraWidth - heart.getWidth() - shooter.getTexture().getWidth()) + shooter.getTexture().getWidth() + arrow.getTexture().getWidth(), cameraHeight,0)));
     }
 
     @Override
