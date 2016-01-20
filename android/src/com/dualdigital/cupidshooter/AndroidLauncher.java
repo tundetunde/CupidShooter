@@ -104,9 +104,9 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 		layout1.addView(bannerAd, params);
 
 		RelativeLayout.LayoutParams params1 = new RelativeLayout.LayoutParams(
-				ViewGroup.LayoutParams.WRAP_CONTENT,
+				370,
 				ViewGroup.LayoutParams.WRAP_CONTENT);
-		params1.addRule(RelativeLayout.CENTER_IN_PARENT);
+		params1.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.CENTER_VERTICAL);
 		layout1.addView(loginFB, params1);
 
 		setContentView(layout1);
