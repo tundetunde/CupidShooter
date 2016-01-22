@@ -12,6 +12,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
@@ -51,21 +52,30 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 	private static final String BANNER_AD_UNIT_ID = "ca-app-pub-6044705985167929/2121637293";
 	private static final String BANNER_TEST = "ca-app-pub-3940256099942544/6300978111";
 	AccessToken accessToken;
+	AdView adView;
 	AdView bannerAd;
+	RelativeLayout L1;
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//initialize(new TheGame(this, this), config);
-		setupAds();
+		//setupAds();
 		FacebookSdk.sdkInitialize(getApplicationContext());
+		setContentView(R.layout.menu_view);
 		callbackManager = CallbackManager.Factory.create();
-		initializeFBButton(callbackManager);
 		printFBKeyHash();
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		View gameView = initializeForView(new TheGame(this, this), config);
-		//defineFBLayout(gameView);
-		defineAdLayout(gameView);
+		newLayout(gameView);
+		initializeFBButton(callbackManager);
+
+	}
+
+	public void initAd(){
+		adView = (AdView) findViewById(R.id.adView4);
+		AdRequest adRequest = new AdRequest.Builder().build();
+		adView.loadAd(adRequest);
 	}
 
 	public void setupAds() {
@@ -77,44 +87,26 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 		bannerAd.setAdSize(AdSize.SMART_BANNER);
 	}
 
-	public void defineFBLayout(View gameView){
-		RelativeLayout layout = new RelativeLayout(this);
-		layout.addView(gameView, ViewGroup.LayoutParams.MATCH_PARENT,
-				ViewGroup.LayoutParams.MATCH_PARENT);
-
+	public void newLayout(View gameView){
+		L1 = (RelativeLayout)findViewById(R.id.L1);
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
 				ViewGroup.LayoutParams.WRAP_CONTENT,
 				ViewGroup.LayoutParams.WRAP_CONTENT);
-		//params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-		params.addRule(RelativeLayout.CENTER_IN_PARENT);
-		layout.addView(loginFB, params);
-		//hideFbButton1();
-		setContentView(layout);
-	}
+		params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 
-	public void defineAdLayout(View gameView){
-		RelativeLayout layout1 = new RelativeLayout(this);
-		layout1.addView(gameView, ViewGroup.LayoutParams.MATCH_PARENT,
-				ViewGroup.LayoutParams.MATCH_PARENT);
-
-		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-				ViewGroup.LayoutParams.MATCH_PARENT,
-				ViewGroup.LayoutParams.WRAP_CONTENT);
-		params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-		layout1.addView(bannerAd, params);
-
-		RelativeLayout.LayoutParams params1 = new RelativeLayout.LayoutParams(
-				370,
-				ViewGroup.LayoutParams.WRAP_CONTENT);
-		params1.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.CENTER_VERTICAL);
-		layout1.addView(loginFB, params1);
-
-		setContentView(layout1);
-		//hideFbButton();
+		L1.addView(gameView, params);
+		initAd();
+		gameView.bringToFront();
+		adView.bringToFront();
+		//loginFB.bringToFront();
+		//adView.bringToFront();
 	}
 
 	private void initializeFBButton(CallbackManager callbackManager){
-		loginFB = new LoginButton(this);
+		loginFB = (LoginButton) findViewById(R.id.login_button);
+		//loginFB = new LoginButton(this);
+		loginFB.bringToFront();
+		//loginFB.setVisibility(View.INVISIBLE);
 		loginFB.setReadPermissions("user_friends");
 		// If using in a fragment
 		//loginFB.setFragment(this);
@@ -244,12 +236,6 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 	}
 
 	public void hideFbButton1() {
-		/*runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				loginFB.setVisibility(View.INVISIBLE);
-			}
-		});*/
 		loginFB.setVisibility(View.INVISIBLE);
 	}
 
@@ -261,7 +247,6 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 				loginFB.setVisibility(View.VISIBLE);
 			}
 		});
-		//loginFB.setVisibility(View.VISIBLE);
 	}
 
 	@Override
@@ -319,10 +304,8 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				bannerAd.setVisibility(View.VISIBLE);
-				AdRequest.Builder builder = new AdRequest.Builder();
-				AdRequest ad = builder.build();
-				bannerAd.loadAd(ad);
+				adView.setVisibility(View.VISIBLE);
+				adView.bringToFront();
 			}
 		});
 	}
@@ -332,7 +315,7 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				bannerAd.setVisibility(View.INVISIBLE);
+				adView.setVisibility(View.INVISIBLE);
 			}
 		});
 	}

@@ -35,6 +35,8 @@ public class Menu extends State{
         stage.addActor(leaderBoardButton);
         Gdx.input.setInputProcessor(stage);
         TheGame.activityMethods.showFbButton();
+        //if(TheGame.adsControl.isWifiConnected())
+        TheGame.adsControl.hideBannerAd();
     }
 
     public void initializeButtons(){

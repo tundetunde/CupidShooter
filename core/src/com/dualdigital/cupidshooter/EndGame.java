@@ -29,8 +29,9 @@ public class EndGame extends State {
 
     protected EndGame(GameStateManager gcm, Vector3 presentPosition, Vector3 shooterPosition, long score) {
         super(gcm);
-        if(TheGame.adsControl.isWifiConnected())
-            TheGame.adsControl.showBannerAd();
+        //if(TheGame.adsControl.isWifiConnected())
+        TheGame.adsControl.showBannerAd();
+        TheGame.activityMethods.showFbButton();
         fallingObject = new FallingObject(PlayGame.heart , new Vector3((int)presentPosition.x, (int)presentPosition.y,0));
         shooter = new Shooter(AssetLoader.shooter, new Vector3(shooterPosition.x, shooterPosition.y ,0));
         background = AssetLoader.background;
