@@ -16,7 +16,7 @@ public class Menu extends State{
     Stage stage;
     int cameraWidth = TheGame.WIDTH / 2;
     int cameraHeight = TheGame.HEIGHT / 2;
-    private BitmapFont fontTitle, shadow;
+    private BitmapFont fontTitle;
 
     protected Menu(GameStateManager gcm) {
         super(gcm);
@@ -24,8 +24,6 @@ public class Menu extends State{
         background = AssetLoader.background;
         fontTitle = AssetLoader.font;
         fontTitle.getData().setScale(1.2f, 1.2f);
-        shadow = AssetLoader.shadow;
-        shadow.getData().setScale(1.2f, 1.2f);
         stage = new Stage();
         initializeButtons();
         stage.addActor(playButton);
@@ -121,7 +119,6 @@ public class Menu extends State{
         sb.begin();
         sb.draw(background, camera.position.x - (camera.viewportWidth / 2), 0);
         String title = "MAIN MENU";
-        shadow.draw(sb, title, TheGame.WIDTH / 4 - (title.length() * 24), (TheGame.HEIGHT / 8) * 3);
         fontTitle.draw(sb, title, TheGame.WIDTH / 4 - (title.length() * 24), (TheGame.HEIGHT / 8) * 3);
         sb.end();
         stage.getViewport().setCamera(camera);

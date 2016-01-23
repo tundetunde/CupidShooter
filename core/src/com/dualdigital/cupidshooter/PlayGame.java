@@ -18,16 +18,13 @@ public class PlayGame extends State {
     private Random rand;
     private static long score;
     private static long lives;
-    private BitmapFont font;
-    private BitmapFont livesText;
-    private BitmapFont shadow;
+    private BitmapFont font, livesText, scorefont;
     int cameraWidth = TheGame.WIDTH / 2;
     int cameraHeight = TheGame.HEIGHT / 2;
     Stage stage = new Stage();
-    public static int shooterX, shooterY, arrowX;
+    public static int shooterX, shooterY;
     private Label.LabelStyle labelStyle;
     private Label instructions;
-    private BitmapFont scorefont;
     private ArrayList<Arrow> arrowList;
     private ArrayList<FallingObject> fallingObjects;
     static Texture heart;
@@ -47,8 +44,6 @@ public class PlayGame extends State {
         livesText.getData().setScale(0.7f, 0.7f);
         font = AssetLoader.font;
         font.getData().setScale(1.2f, 1.2f);
-        shadow = AssetLoader.shadow;
-        shadow.getData().setScale(1.2f, 1.2f);
         scorefont = AssetLoader.scoreFont;
         scorefont.getData().setScale(0.6f, 0.6f);
         labelStyle = new Label.LabelStyle(scorefont, Color.PURPLE);
@@ -180,10 +175,9 @@ public class PlayGame extends State {
             }
             sb.draw(shooter.getTexture(), shooter.getPosition().x, shooter.getPosition().y);
             String scoreString = Long.toString(score);
-            String livesLeft = "Lives: " + Long.toString(lives);
+            String livesLeft = Long.toString(lives);
             livesText.draw(sb, livesLeft, 0, TheGame.HEIGHT / 2 - 30);
-            shadow.draw(sb, scoreString, TheGame.WIDTH / 4 - scoreString.length() * 10, (TheGame.HEIGHT / 8) * 3);
-            font.draw(sb, scoreString, TheGame.WIDTH / 4 - scoreString.length() * 10, (TheGame.HEIGHT / 8) * 3);
+            scorefont.draw(sb, scoreString, TheGame.WIDTH / 4 - scoreString.length() * 10, (TheGame.HEIGHT / 8) * 3);
             sb.end();
             stage.getViewport().setCamera(camera);
             stage.draw();
@@ -196,7 +190,6 @@ public class PlayGame extends State {
 
             sb.draw(shooter.getTexture(), shooter.getPosition().x, shooter.getPosition().y);
             String h = "TAP TO CONTINUE";
-            shadow.draw(sb, h, TheGame.WIDTH / 4 - h.length() * 10, (TheGame.HEIGHT / 8) * 3);
             font.draw(sb, h, TheGame.WIDTH / 4 - h.length() * 10, (TheGame.HEIGHT / 8) * 3);
             sb.end();
         }

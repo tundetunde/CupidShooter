@@ -16,9 +16,7 @@ public class PauseScreen extends State {
     private Texture background;
     private FallingObject fallingObject;
     private Shooter shooter;
-    private BitmapFont font;
-    private BitmapFont scorefont;
-    private BitmapFont shadow;
+    private BitmapFont font, scorefont;
     private Label.LabelStyle labelStyle;
     int cameraWidth = TheGame.WIDTH / 2;
     int cameraHeight = TheGame.HEIGHT / 2;
@@ -35,8 +33,6 @@ public class PauseScreen extends State {
         camera.setToOrtho(false, TheGame.WIDTH / 2, TheGame.HEIGHT / 2);
         font = AssetLoader.font;
         font.getData().setScale(1.2f, 1.2f);
-        shadow = AssetLoader.shadow;
-        shadow.getData().setScale(1.2f, 1.2f);
         scorefont = AssetLoader.scoreFont;
         scorefont.getData().setScale(0.6f, 0.6f);
         stage = new Stage();
@@ -63,7 +59,6 @@ public class PauseScreen extends State {
         sb.draw(background, camera.position.x - (camera.viewportWidth / 2), 0);
         sb.draw(shooter.getTexture(), shooter.getPosition().x, shooter.getPosition().y);
         String scoreString = "PAUSED";
-        shadow.draw(sb, scoreString, TheGame.WIDTH / 4 - scoreString.length() * 10, (TheGame.HEIGHT / 8) * 3);
         font.draw(sb, scoreString, TheGame.WIDTH / 4 - scoreString.length() * 10, (TheGame.HEIGHT / 8) * 3);
         sb.end();
         stage.getViewport().setCamera(camera);

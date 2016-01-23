@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 public class AssetLoader {
     public static Preferences prefs;
     public static Sound coin;
-    public static BitmapFont font, shadow, scoreFont, livesLeft;
+    public static BitmapFont font, scoreFont, livesLeft, instructFont;
     public static Texture background, shooter, splash, arrow;
     public static Texture h1, h2, h3, h4, h5, h6;
     public static Skin menuSkin;
@@ -22,10 +22,10 @@ public class AssetLoader {
 
     public static void load(){
         prefs = Gdx.app.getPreferences("Falling Presents");
-        font = new BitmapFont(Gdx.files.internal("text.fnt"));
-        livesLeft = new BitmapFont(Gdx.files.internal("text.fnt"));
-        shadow = new BitmapFont(Gdx.files.internal("shadow.fnt"));
-        scoreFont = new BitmapFont(Gdx.files.internal("text.fnt"));
+        font = new BitmapFont(Gdx.files.internal("bold_font.fnt"));
+        livesLeft = new BitmapFont(Gdx.files.internal("lives_font.fnt"));
+        scoreFont = new BitmapFont(Gdx.files.internal("lives_font.fnt"));
+        instructFont = new BitmapFont(Gdx.files.internal("end_font.fnt"));
         background = new Texture("bg.png");
         splash = new Texture("splash.png");
         shooter = new Texture("cupid.png");
@@ -123,7 +123,6 @@ public class AssetLoader {
         background.dispose();
         shooter.dispose();
         font.dispose();
-        shadow.dispose();
         scoreFont.dispose();
         h1.dispose();
         h2.dispose();
