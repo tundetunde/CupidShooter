@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 /**
@@ -17,6 +18,7 @@ public class Menu extends State{
     int cameraWidth = TheGame.WIDTH / 2;
     int cameraHeight = TheGame.HEIGHT / 2;
     private BitmapFont fontTitle;
+    boolean leaderboardOn;
 
     protected Menu(GameStateManager gcm) {
         super(gcm);
@@ -110,6 +112,11 @@ public class Menu extends State{
     @Override
     public void update(float dt) {
         handleInput();
+        if(!TheGame.activityMethods.isLoggedInFB())
+            leaderBoardButton.setTouchable(Touchable.disabled);
+        else
+            leaderBoardButton.setTouchable(Touchable.enabled);
+
         stage.act(dt);
     }
 

@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -53,7 +54,8 @@ public class EndGame extends State {
         stage.addActor(shareButton);
         stage.addActor(muteButton);
         stage.addActor(rateButton);
-        stage.addActor(leaderBoardButton);
+        if(TheGame.activityMethods.isLoggedInFB())
+            stage.addActor(leaderBoardButton);
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -135,6 +137,10 @@ public class EndGame extends State {
 
     @Override
     public void update(float dt) {
+        if(!TheGame.activityMethods.isLoggedInFB())
+            leaderBoardButton.setTouchable(Touchable.disabled);
+        else
+            leaderBoardButton.setTouchable(Touchable.enabled);
         stage.act(dt);
     }
 
