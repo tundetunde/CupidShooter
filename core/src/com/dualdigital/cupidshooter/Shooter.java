@@ -19,8 +19,8 @@ public class Shooter extends GameObject {
             position.add(0, velocity.y, 0);
         if(position.y < 0)
             position.y = 0;
-        if(position.y > (TheGame.WIDTH / 2) - texture.getWidth())
-            position.y = TheGame.WIDTH / 2 - texture.getWidth();
+        if(position.y > (TheGame.HEIGHT / 2) - texture.getHeight())
+            position.y = TheGame.HEIGHT / 2 - texture.getHeight();
         bounds.setPosition(position.x, position.y);
         velocity.scl(1 / dt);
     }

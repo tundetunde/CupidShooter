@@ -119,7 +119,7 @@ public class Menu extends State{
         sb.begin();
         sb.draw(background, camera.position.x - (camera.viewportWidth / 2), 0);
         String title = "MAIN MENU";
-        fontTitle.draw(sb, title, TheGame.WIDTH / 4 - (title.length() * 24), (TheGame.HEIGHT / 8) * 3);
+        fontTitle.draw(sb, title, TheGame.WIDTH / 4 - (title.length() * 35), (TheGame.HEIGHT / 8) * 3 + 30);
         sb.end();
         stage.getViewport().setCamera(camera);
         stage.draw();

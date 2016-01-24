@@ -39,14 +39,14 @@ public class EndGame extends State {
         font = AssetLoader.font;
         font.getData().setScale(1.2f, 1.2f);
         scorefont = AssetLoader.scoreFont;
-        scorefont.getData().setScale(0.6f, 0.6f);
+        scorefont.getData().setScale(1.0f, 1.0f);
         stage = new Stage();
         labelStyle = new Label.LabelStyle(scorefont, Color.WHITE);
         initializeButtons();
         this.score = score;
         String scoreString = "Score: " + score + "\nHigh Score: " + AssetLoader.getHighScore();
         scoreBoard = new Label(scoreString, labelStyle);
-        scoreBoard.setPosition((cameraWidth / 2) - (scoreBoard.getWidth() / 2), cameraHeight / 2 + 30);
+        scoreBoard.setPosition((cameraWidth / 10) - 40, cameraHeight / 4 + 60);
         //scoreBoard.setSize(300, 500);
         stage.addActor(scoreBoard);
         stage.addActor(playButton);
@@ -59,7 +59,7 @@ public class EndGame extends State {
 
     public void initializeButtons(){
         playButton = new ImageButton(AssetLoader.playStyle);
-        playButton.setPosition(cameraWidth / 6 * 2, cameraHeight / 3 + 20);
+        playButton.setPosition(cameraWidth / 6 * 2, cameraHeight / 2);
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
@@ -72,7 +72,7 @@ public class EndGame extends State {
         });
 
         shareButton = new ImageButton(AssetLoader.shareStyle);
-        shareButton.setPosition(cameraWidth / 6 * 2, cameraHeight / 4 - 40);
+        shareButton.setPosition(cameraWidth / 6 * 2, cameraHeight / 3 - 30);
         shareButton.addListener(new ClickListener() {
             @Override
             public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
@@ -105,7 +105,7 @@ public class EndGame extends State {
         });
 
         leaderBoardButton = new ImageButton(AssetLoader.scoreStyle);
-        leaderBoardButton.setPosition((cameraWidth / 6) * 3 + 60, cameraHeight / 4 - 40);
+        leaderBoardButton.setPosition((cameraWidth / 6) * 3 + 60, cameraHeight / 3 - 30);
         leaderBoardButton.addListener(new ClickListener() {
             @Override
             public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
@@ -117,7 +117,7 @@ public class EndGame extends State {
         });
 
         rateButton = new ImageButton(AssetLoader.rateStyle);
-        rateButton.setPosition((cameraWidth / 6) * 3 + 60, cameraHeight / 3 + 20);
+        rateButton.setPosition((cameraWidth / 6) * 3 + 60, cameraHeight / 2);
         rateButton.addListener(new ClickListener() {
             @Override
             public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
@@ -146,7 +146,7 @@ public class EndGame extends State {
         sb.draw(fallingObject.getTexture(), fallingObject.getPosition().x, fallingObject.getPosition().y);
         sb.draw(shooter.getTexture(), shooter.getPosition().x, shooter.getPosition().y);
         String over = "GAME OVER";
-        font.draw(sb, over, (TheGame.WIDTH / 4) - (over.length() * 27), (cameraHeight / 10) * 9);
+        font.draw(sb, over, (TheGame.WIDTH / 4) - (over.length() * 40), (cameraHeight / 10) * 8);
         sb.end();
         stage.getViewport().setCamera(camera);
         stage.draw();
