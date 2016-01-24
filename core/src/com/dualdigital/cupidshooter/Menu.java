@@ -18,7 +18,6 @@ public class Menu extends State{
     int cameraWidth = TheGame.WIDTH / 2;
     int cameraHeight = TheGame.HEIGHT / 2;
     private BitmapFont fontTitle;
-    boolean leaderboardOn;
 
     protected Menu(GameStateManager gcm) {
         super(gcm);

@@ -78,15 +78,6 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 		adView.loadAd(adRequest);
 	}
 
-	public void setupAds() {
-		bannerAd = new AdView(this);
-		bannerAd.setVisibility(View.INVISIBLE);
-		bannerAd.setBackgroundColor(0xff000000); // black
-		//bannerAd.setAdUnitId(BANNER_AD_UNIT_ID);
-		bannerAd.setAdUnitId(BANNER_TEST);
-		bannerAd.setAdSize(AdSize.SMART_BANNER);
-	}
-
 	public void newLayout(View gameView){
 		L1 = (RelativeLayout)findViewById(R.id.L1);
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
@@ -233,10 +224,6 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 				loginFB.setVisibility(View.INVISIBLE);
 			}
 		});
-	}
-
-	public void hideFbButton1() {
-		loginFB.setVisibility(View.INVISIBLE);
 	}
 
 	@Override
