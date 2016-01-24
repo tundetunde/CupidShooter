@@ -18,6 +18,7 @@ public class Menu extends State{
     int cameraWidth = TheGame.WIDTH / 2;
     int cameraHeight = TheGame.HEIGHT / 2;
     private BitmapFont fontTitle;
+    boolean isLeaderboardOn;
 
     protected Menu(GameStateManager gcm) {
         super(gcm);
@@ -33,6 +34,13 @@ public class Menu extends State{
         stage.addActor(rateButton);
         stage.addActor(leaderBoardButton);
         Gdx.input.setInputProcessor(stage);
+        if(TheGame.activityMethods.isLoggedInFB()){
+            stage.addActor(leaderBoardButton);
+            isLeaderboardOn = true;
+        }else{
+            isLeaderboardOn = false;
+        }
+
         TheGame.activityMethods.showFbButton();
         //if(TheGame.adsControl.isWifiConnected())
         TheGame.adsControl.hideBannerAd();
@@ -111,10 +119,17 @@ public class Menu extends State{
     @Override
     public void update(float dt) {
         handleInput();
-        if(!TheGame.activityMethods.isLoggedInFB())
-            leaderBoardButton.setTouchable(Touchable.disabled);
-        else
-            leaderBoardButton.setTouchable(Touchable.enabled);
+        if(TheGame.activityMethods.isLoggedInFB()){
+            if(!isLeaderboardOn){
+                stage.addActor(leaderBoardButton);
+                isLeaderboardOn = true;
+            }
+        }else {
+            if(isLeaderboardOn){
+                leaderBoardButton.remove();
+                isLeaderboardOn = false;
+            }
+        }
 
         stage.act(dt);
     }

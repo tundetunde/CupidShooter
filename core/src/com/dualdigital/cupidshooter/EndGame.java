@@ -27,6 +27,7 @@ public class EndGame extends State {
     long score;
     Stage stage;
     private Label scoreBoard;
+    boolean isLeaderboardOn;
 
     protected EndGame(GameStateManager gcm, Vector3 presentPosition, Vector3 shooterPosition, long score) {
         super(gcm);
@@ -54,8 +55,12 @@ public class EndGame extends State {
         stage.addActor(shareButton);
         stage.addActor(muteButton);
         stage.addActor(rateButton);
-        if(TheGame.activityMethods.isLoggedInFB())
+        if(TheGame.activityMethods.isLoggedInFB()){
             stage.addActor(leaderBoardButton);
+            isLeaderboardOn = true;
+        }else{
+            isLeaderboardOn = false;
+        }
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -137,10 +142,17 @@ public class EndGame extends State {
 
     @Override
     public void update(float dt) {
-        if(!TheGame.activityMethods.isLoggedInFB())
-            leaderBoardButton.setTouchable(Touchable.disabled);
-        else
-            leaderBoardButton.setTouchable(Touchable.enabled);
+        if(TheGame.activityMethods.isLoggedInFB()){
+            if(!isLeaderboardOn){
+                stage.addActor(leaderBoardButton);
+                isLeaderboardOn = true;
+            }
+        }else {
+            if(isLeaderboardOn){
+                leaderBoardButton.remove();
+                isLeaderboardOn = false;
+            }
+        }
         stage.act(dt);
     }
 
