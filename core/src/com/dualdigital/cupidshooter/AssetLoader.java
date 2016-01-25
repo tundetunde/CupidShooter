@@ -24,8 +24,8 @@ public class AssetLoader {
         prefs = Gdx.app.getPreferences("Falling Presents");
         font = new BitmapFont(Gdx.files.internal("bold_font.fnt"));
         livesLeft = new BitmapFont(Gdx.files.internal("lives_font.fnt"));
-        scoreFont = new BitmapFont(Gdx.files.internal("end_font.fnt"));
-        instructFont = new BitmapFont(Gdx.files.internal("end_font.fnt"));
+        scoreFont = new BitmapFont(Gdx.files.internal("font.fnt"));
+        instructFont = new BitmapFont(Gdx.files.internal("font.fnt"));
         background = new Texture("bg.png");
         splash = new Texture("splash.png");
         shooter = new Texture("cupid.png");

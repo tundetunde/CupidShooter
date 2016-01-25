@@ -41,11 +41,11 @@ public class PlayGame extends State {
         camera.setToOrtho(false, TheGame.WIDTH / 2, TheGame.HEIGHT / 2);
         score = 0;
         livesText = AssetLoader.livesLeft;
-        livesText.getData().setScale(0.7f, 0.7f);
+        livesText.getData().setScale(1.0f, 1.0f);
         font = AssetLoader.font;
         font.getData().setScale(1.2f, 1.2f);
         scorefont = AssetLoader.scoreFont;
-        scorefont.getData().setScale(1.8f, 1.8f);
+        scorefont.getData().setScale(1.5f, 1.5f);
         labelStyle = new Label.LabelStyle(scorefont, Color.PURPLE);
         String instructionsText = "Tilt the screen left or right to move the shooter\nTap the screen to shoot arrow\nTo Play, Tap Screen!";
         instructions = new Label(instructionsText, labelStyle);
@@ -176,7 +176,7 @@ public class PlayGame extends State {
             sb.draw(shooter.getTexture(), shooter.getPosition().x, shooter.getPosition().y);
             String scoreString = Long.toString(score);
             String livesLeft = Long.toString(lives);
-            livesText.draw(sb, livesLeft, 0, TheGame.HEIGHT / 2 - 30);
+            livesText.draw(sb, livesLeft, 0, TheGame.HEIGHT / 2 - 20);
             scorefont.draw(sb, scoreString, TheGame.WIDTH / 4 - scoreString.length() * 10, (TheGame.HEIGHT / 8) * 3);
             sb.end();
             stage.getViewport().setCamera(camera);
