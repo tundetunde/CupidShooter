@@ -77,7 +77,7 @@ public class AssetLoader {
         if (!prefs.contains("soundControl")) {
             prefs.putBoolean("soundControl", true);
         }
-        coin = Gdx.audio.newSound(Gdx.files.internal("coin.wav"));
+        coin = Gdx.audio.newSound(Gdx.files.internal("throw_knife.wav"));
     }
 
     public Texture getBackground(){
