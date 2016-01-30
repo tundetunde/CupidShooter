@@ -285,7 +285,7 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 										}}
 								);
 								Leaderboard.leaderboardIDs.add(id);
-								Leaderboard.profilePics.add(getProfilePics(id));
+									Leaderboard.profilePics.add(getProfilePics(id));
 								//is
 							} catch (JSONException e) {
 								e.printStackTrace();
