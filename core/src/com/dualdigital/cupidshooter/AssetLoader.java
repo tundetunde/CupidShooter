@@ -77,6 +77,10 @@ public class AssetLoader {
         if (!prefs.contains("soundControl")) {
             prefs.putBoolean("soundControl", true);
         }
+
+        if (!prefs.contains("rewardLife")) {
+            prefs.putBoolean("rewardLife", false);
+        }
         coin = Gdx.audio.newSound(Gdx.files.internal("knife.wav"));
     }
 
@@ -102,6 +106,15 @@ public class AssetLoader {
 
     public static boolean isFirstTime() {
         return prefs.getBoolean("firstTime");
+    }
+
+    public static boolean isRewardLife(){
+        return prefs.getBoolean("rewardLife");
+    }
+
+    public static void setRewardedlife(boolean val){
+        prefs.putBoolean("rewardLife", val);
+        prefs.flush();
     }
 
     public static void toggleSound(boolean val) {

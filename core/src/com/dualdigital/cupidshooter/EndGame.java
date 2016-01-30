@@ -21,7 +21,7 @@ public class EndGame extends State {
     private Shooter shooter;
     private BitmapFont font, scorefont;
     private Label.LabelStyle labelStyle;
-    private ImageButton playButton,leaderBoardButton,rateButton, muteButton, shareButton;
+    private ImageButton playButton,leaderBoardButton,rateButton, muteButton, shareButton, extraLifeButton;
     int cameraWidth = TheGame.WIDTH / 2;
     int cameraHeight = TheGame.HEIGHT / 2;
     long score;
@@ -52,6 +52,7 @@ public class EndGame extends State {
         //scoreBoard.setSize(300, 500);
         stage.addActor(scoreBoard);
         stage.addActor(playButton);
+        stage.addActor(extraLifeButton);
         stage.addActor(shareButton);
         stage.addActor(muteButton);
         stage.addActor(rateButton);
@@ -75,6 +76,17 @@ public class EndGame extends State {
                 /*if(TheGame.adsControl.isWifiConnected())
                     TheGame.adsControl.hideBannerAd();*/
                 gcm.set(new PlayGame(gcm));
+            }
+        });
+
+        extraLifeButton = new ImageButton(AssetLoader.playStyle);
+        extraLifeButton.setPosition(cameraWidth / 6 * 4, cameraHeight / 2);
+        extraLifeButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                System.out.println("Button Clicked");
+                TheGame.adsControl.showRewardVideo();
             }
         });
 

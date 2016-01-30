@@ -7,4 +7,5 @@ public interface AdsController {
     void showBannerAd();
     void hideBannerAd();
     boolean isWifiConnected();
+    void showRewardVideo();
 }
