@@ -17,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
  */
 public class EndGame extends State {
     private Texture background;
-    private FallingObject fallingObject;
     private Shooter shooter;
     private BitmapFont font, scorefont;
     private Label.LabelStyle labelStyle;
@@ -34,7 +33,6 @@ public class EndGame extends State {
         //if(TheGame.adsControl.isWifiConnected())
         TheGame.adsControl.showBannerAd();
         TheGame.activityMethods.showFbButton();
-        fallingObject = new FallingObject(PlayGame.heart , new Vector3((int)presentPosition.x, (int)presentPosition.y,0));
         shooter = new Shooter(AssetLoader.shooter, new Vector3(shooterPosition.x, shooterPosition.y ,0));
         background = AssetLoader.background;
         camera.setToOrtho(false, TheGame.WIDTH / 2, TheGame.HEIGHT / 2);
@@ -173,7 +171,6 @@ public class EndGame extends State {
         sb.setProjectionMatrix(camera.combined);
         sb.begin();
         sb.draw(background, camera.position.x - (camera.viewportWidth / 2), 0);
-        sb.draw(fallingObject.getTexture(), fallingObject.getPosition().x, fallingObject.getPosition().y);
         sb.draw(shooter.getTexture(), shooter.getPosition().x, shooter.getPosition().y);
         String over = "GAME OVER";
         font.draw(sb, over, (TheGame.WIDTH / 4) - (over.length() * 40), (cameraHeight / 10) * 8);
