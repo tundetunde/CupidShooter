@@ -71,14 +71,12 @@ public class EndGame extends State {
             public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 System.out.println("Button Clicked");
-                /*if(TheGame.adsControl.isWifiConnected())
-                    TheGame.adsControl.hideBannerAd();*/
                 gcm.set(new PlayGame(gcm));
             }
         });
 
         extraLifeButton = new ImageButton(AssetLoader.playStyle);
-        extraLifeButton.setPosition(cameraWidth / 6 * 4, cameraHeight / 2);
+        extraLifeButton.setPosition(cameraWidth / 6 * 5, cameraHeight / 2);
         extraLifeButton.addListener(new ClickListener() {
             @Override
             public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
