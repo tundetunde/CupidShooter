@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -47,6 +49,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -247,6 +252,7 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 	@Override
 	public ArrayList<HashMap<String, Integer>> postLeaderboard() {
 		Leaderboard.leaderboardIDs = new ArrayList<>();
+		Leaderboard.profilePics = new ArrayList<>();
 		final ArrayList<HashMap<String, Integer>> list = new ArrayList<>();
 		new GraphRequest(
 				AccessToken.getCurrentAccessToken(),
@@ -279,8 +285,11 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 										}}
 								);
 								Leaderboard.leaderboardIDs.add(id);
+								Leaderboard.profilePics.add(getProfilePics(id));
 								//is
 							} catch (JSONException e) {
+								e.printStackTrace();
+							} catch (IOException e) {
 								e.printStackTrace();
 							}
 						}
@@ -418,5 +427,11 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 					}
 				});
 		alertDialog.show();
+	}
+
+	public Bitmap getProfilePics(String id) throws IOException {
+		URL url = new URL("https://graph.facebook.com/" + id + "/picture?type=small");
+		Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+		return image;
 	}
 }

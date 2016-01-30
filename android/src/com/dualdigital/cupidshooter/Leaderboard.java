@@ -39,6 +39,7 @@ import java.util.Set;
 public class Leaderboard extends ListActivity {
     public static ArrayList<HashMap<String, Integer>> leaderboardArray;
     public static ArrayList<String> leaderboardIDs;
+    public static ArrayList<Bitmap> profilePics;
     static ContactAdapter adapter;
     static ArrayList<Contact> fb_contact;
     Button goBack;
@@ -72,51 +73,6 @@ public class Leaderboard extends ListActivity {
         adapter = new ContactAdapter(this, R.layout.leaderboard_box, fb_contact);
         setListAdapter(adapter);
         adapter.notifyDataSetChanged();
-    }
-
-    public static Bitmap getFacebookProfilePicture(final String userID){
-        final URL[] imageURL = {null};
-        final Bitmap[] bitmap = {null};
-        new GraphRequest(
-                AccessToken.getCurrentAccessToken(),
-                "/" + userID + "/picture",
-                null,
-                HttpMethod.GET,
-                new GraphRequest.Callback() {
-                    public void onCompleted(GraphResponse response) {
-            /* handle the result */
-                        JSONObject data = response.getJSONObject();
-                        if (data.has("picture")) {
-                            String profilePicUrl = null;
-                            try {
-                                profilePicUrl = data.getJSONObject("picture").getJSONObject("data").getString("url");
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                            Bitmap profilePic = getFacebookProfilePicture(profilePicUrl);
-                            bitmap[0] = profilePic;
-                            // set profilePic bitmap to imageview
-                        }
-                    }
-                }
-        ).executeAsync();
-        return bitmap[0];
-    }
-
-    public static Bitmap getFacebookProfilePicture1(String id) throws IOException {
-        final URL image_value = new URL("https://graph.facebook.com/"+ id +"/picture?type=small" );
-        final Bitmap[] b = new Bitmap[1];
-        new  Thread ( new  Runnable ()  {
-            public  void run ()  {
-                try {
-                    b[0] = BitmapFactory.decodeStream(image_value.openConnection().getInputStream());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }). start ();
-
-        return b[0];
     }
 
     private class ContactAdapter extends ArrayAdapter<Contact> {
@@ -156,12 +112,7 @@ public class Leaderboard extends ListActivity {
             Contact p = getItem(position);
             holder.fh_user.setText(p.name);
             holder.fh_score.setText(p.score);
-            Bitmap b = null;
-            try {
-                b = getFacebookProfilePicture1(leaderboardIDs.get(position));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            Bitmap b = profilePics.get(position);
             holder.fh_displayPic.setImageBitmap(b);
             adapter.notifyDataSetChanged();
             return cv;
