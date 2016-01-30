@@ -1,12 +1,15 @@
 package com.dualdigital.cupidshooter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
@@ -14,8 +17,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.appodeal.ads.Appodeal;
+import com.appodeal.ads.RewardedVideoCallbacks;
+import com.appodeal.ads.SkippableVideoCallbacks;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.dualdigital.cupidshooter.TheGame;
@@ -35,6 +41,7 @@ import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,7 +52,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class AndroidLauncher extends AndroidApplication implements AdsController, ActivityMethods{
+public class AndroidLauncher extends AndroidApplication implements AdsController, ActivityMethods {
 	LoginButton loginFB;
 	Profile profile;
 	CallbackManager callbackManager;
@@ -58,7 +65,7 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 	RelativeLayout L1;
 
 	@Override
-	protected void onCreate (Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//initialize(new TheGame(this, this), config);
 		//setupAds();
@@ -70,17 +77,16 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 		View gameView = initializeForView(new TheGame(this, this), config);
 		newLayout(gameView);
 		initializeFBButton(callbackManager);
-
 	}
 
-	public void initAd(){
+	public void initAd() {
 		adView = (AdView) findViewById(R.id.adView4);
 		AdRequest adRequest = new AdRequest.Builder().build();
 		adView.loadAd(adRequest);
 	}
 
-	public void newLayout(View gameView){
-		L1 = (RelativeLayout)findViewById(R.id.L1);
+	public void newLayout(View gameView) {
+		L1 = (RelativeLayout) findViewById(R.id.L1);
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
 				ViewGroup.LayoutParams.WRAP_CONTENT,
 				ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -95,7 +101,7 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 		//adView.bringToFront();
 	}
 
-	private void initializeFBButton(CallbackManager callbackManager){
+	private void initializeFBButton(CallbackManager callbackManager) {
 		loginFB = (LoginButton) findViewById(R.id.login_button);
 		//loginFB = new LoginButton(this);
 		loginFB.bringToFront();
@@ -147,7 +153,7 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 				});
 	}
 
-	private void printFBKeyHash(){
+	private void printFBKeyHash() {
 		try {
 			PackageInfo info = getPackageManager().getPackageInfo(
 					"com.dualdigital.cupidshooter",
@@ -178,7 +184,7 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 		share("text/plain", text);
 	}
 
-	public void share(String type, String caption){
+	public void share(String type, String caption) {
 
 		// Create the new Intent using the 'Send' action.
 		Intent share = new Intent(Intent.ACTION_SEND);
@@ -205,7 +211,7 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 				HttpMethod.POST,
 				new GraphRequest.Callback() {
 					public void onCompleted(GraphResponse response) {
-            /* handle the result */
+			/* handle the result */
 						Log.d("Post Score", response.toString());
 					}
 				}
@@ -219,7 +225,7 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 	}
 
 	@Override
-	 public void hideFbButton() {
+	public void hideFbButton() {
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
@@ -258,7 +264,7 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 						} catch (JSONException e) {
 							e.printStackTrace();
 						}
-						for (int i=0; i< jsonArray.length(); i++) {
+						for (int i = 0; i < jsonArray.length(); i++) {
 							try {
 								String name;
 								JSONObject jsonobject = (JSONObject) jsonArray.get(i);
@@ -268,7 +274,7 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 								name = user.optString("name");
 								final String theName = name;
 								list.add(
-										new HashMap<String, Integer>(){{
+										new HashMap<String, Integer>() {{
 											put(theName, score);
 										}}
 								);
@@ -285,11 +291,51 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 		return list;
 	}
 
-	private void initializeAppodeal(){
+	private void initializeAppodeal() {
 		String appKey = "1ef9cc021fc4e5ee4feeb803aa6c87a1e658fadb1c9f3f75";
-		Appodeal.initialize(this, appKey, Appodeal.BANNER);
+		Appodeal.initialize(this, appKey, Appodeal.BANNER | Appodeal.REWARDED_VIDEO);
+		Appodeal.cache(this, Appodeal.REWARDED_VIDEO, 3);
 		Appodeal.setTesting(true);
 		Appodeal.setLogging(true);
+		Appodeal.setRewardedVideoCallbacks(new RewardedVideoCallbacks() {
+			@Override
+			public void onRewardedVideoLoaded() {
+
+			}
+
+			@Override
+			public void onRewardedVideoFailedToLoad() {
+
+			}
+
+			@Override
+			public void onRewardedVideoShown() {
+
+			}
+
+			@Override
+			public void onRewardedVideoFinished(int i, String s) {
+				showToast("You now have an extra life");
+				showDialogBox();
+				AssetLoader.setRewardedlife(true);
+			}
+
+			@Override
+			public void onRewardedVideoClosed() {
+
+			}
+
+			private Toast mToast;
+
+			void showToast(final String text) {
+				if (mToast == null) {
+					mToast = Toast.makeText(AndroidLauncher.this, text, Toast.LENGTH_SHORT);
+				}
+				mToast.setText(text);
+				mToast.setDuration(Toast.LENGTH_SHORT);
+				mToast.show();
+			}
+		});
 		//Appodeal.show(AndroidLauncher.this, Appodeal.BANNER);
 	}
 
@@ -333,6 +379,13 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 	}
 
 	@Override
+	public void showRewardVideo() {
+		//Appodeal.cache(this, Appodeal.REWARDED_VIDEO, 3);
+		Appodeal.hide(this, Appodeal.REWARDED_VIDEO);
+		Appodeal.show(this, Appodeal.REWARDED_VIDEO);
+	}
+
+	@Override
 	protected void onResume() {
 		super.onResume();
 
@@ -352,5 +405,18 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		callbackManager.onActivityResult(requestCode, resultCode, data);
+	}
+
+	private void showDialogBox(){
+		AlertDialog alertDialog = new AlertDialog.Builder(AndroidLauncher.this).create();
+		alertDialog.setTitle("EXTRA LIFE");
+		alertDialog.setMessage("You Just Got An Extra Life for your next play, Use IT WISELY :)");
+		alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				});
+		alertDialog.show();
 	}
 }

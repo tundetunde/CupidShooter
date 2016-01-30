@@ -33,7 +33,10 @@ public class PlayGame extends State {
 
     protected PlayGame(GameStateManager gcm) {
         super(gcm);
-        lives = 3;
+        if(AssetLoader.isRewardLife())
+            lives = 4;
+        else
+            lives = 3;
         rand = new Random();
         AssetLoader.setMotionControl(true);
         shooter = new Shooter(AssetLoader.shooter, new Vector3(0, 0 ,0));
@@ -138,6 +141,8 @@ public class PlayGame extends State {
                                     TheGame.activityMethods.postFacebookScore(score);
                                 }
                             }
+                            if(AssetLoader.isRewardLife())
+                                AssetLoader.setRewardedlife(false);
                             gcm.set(new EndGame(gcm, obj.getPosition(), shooter.getPosition(), score));
                         }
                     }

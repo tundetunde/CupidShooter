@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
  */
 public class Menu extends State{
     private Texture background;
-    private ImageButton playButton,leaderBoardButton,rateButton, muteButton, shareButton;
+    private ImageButton playButton,leaderBoardButton,rateButton, muteButton, shareButton, extraLifeButton;
     Stage stage;
     int cameraWidth = TheGame.WIDTH / 2;
     int cameraHeight = TheGame.HEIGHT / 2;
@@ -29,6 +29,7 @@ public class Menu extends State{
         stage = new Stage();
         initializeButtons();
         stage.addActor(playButton);
+        stage.addActor(extraLifeButton);
         stage.addActor(shareButton);
         stage.addActor(muteButton);
         stage.addActor(rateButton);
@@ -42,7 +43,6 @@ public class Menu extends State{
         }
 
         TheGame.activityMethods.showFbButton();
-        //if(TheGame.adsControl.isWifiConnected())
         TheGame.adsControl.hideBannerAd();
     }
 
@@ -55,6 +55,17 @@ public class Menu extends State{
                 super.clicked(event, x, y);
                 System.out.println("Button Clicked");
                 gcm.set(new PlayGame(gcm));
+            }
+        });
+
+        extraLifeButton = new ImageButton(AssetLoader.playStyle);
+        extraLifeButton.setPosition(cameraWidth / 6 * 4, cameraHeight / 2);
+        extraLifeButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                System.out.println("Button Clicked");
+                TheGame.adsControl.showRewardVideo();
             }
         });
 
