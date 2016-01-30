@@ -50,7 +50,7 @@ public class PlayGame extends State {
         scorefont = AssetLoader.scoreFont;
         scorefont.getData().setScale(1.5f, 1.5f);
         labelStyle = new Label.LabelStyle(scorefont, Color.PURPLE);
-        String instructionsText = "Tilt the screen left or right to move the shooter\nTap the screen to shoot arrow\nTo Play, Tap Screen!";
+        String instructionsText = "Tilt the screen up or down to move the shooter\nTap the screen to shoot arrow\nTo Play, Tap Screen!";
         instructions = new Label(instructionsText, labelStyle);
         instructions.setPosition((cameraWidth / 2) - (instructions.getWidth() / 2), cameraHeight / 2 - 40);
         stage.addActor(instructions);

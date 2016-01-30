@@ -177,14 +177,14 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 
 	@Override
 	public void shareScore() {
-		String text = "#FallingPresents\nI'm collecting presents from Santa\n What about you?\n " +
+		String text = "#LoveShots\nI'm collecting hearts\n What about you?\n " +
 				"Download from https://play.google.com/store/apps/details?id=com.dualdigital.cupidshooter";
 		share("text/plain", text);
 	}
 
 	@Override
 	public void shareScore(long score) {
-		String text = "#FallingPresents\nI have collected " + score + " presents\nWhat about you?\n" +
+		String text = "#LoveShots\nI have collected " + score + " hearts\nWhat about you?\n" +
 				"Download from https://play.google.com/store/apps/details?id=com.dualdigital.cupidshooter";
 		share("text/plain", text);
 	}
