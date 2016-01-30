@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.appodeal.ads.Appodeal;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.dualdigital.cupidshooter.TheGame;
@@ -87,6 +88,7 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 
 		L1.addView(gameView, params);
 		initAd();
+		initializeAppodeal();
 		gameView.bringToFront();
 		adView.bringToFront();
 		//loginFB.bringToFront();
@@ -238,6 +240,7 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 
 	@Override
 	public ArrayList<HashMap<String, Integer>> postLeaderboard() {
+		Leaderboard.leaderboardIDs = new ArrayList<>();
 		final ArrayList<HashMap<String, Integer>> list = new ArrayList<>();
 		new GraphRequest(
 				AccessToken.getCurrentAccessToken(),
@@ -261,6 +264,7 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 								JSONObject jsonobject = (JSONObject) jsonArray.get(i);
 								JSONObject user = jsonobject.getJSONObject("user");
 								final int score = jsonobject.optInt("score");
+								String id = user.optString("id");
 								name = user.optString("name");
 								final String theName = name;
 								list.add(
@@ -268,6 +272,8 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 											put(theName, score);
 										}}
 								);
+								Leaderboard.leaderboardIDs.add(id);
+								//is
 							} catch (JSONException e) {
 								e.printStackTrace();
 							}
@@ -277,6 +283,14 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 		).executeAndWait();
 
 		return list;
+	}
+
+	private void initializeAppodeal(){
+		String appKey = "1ef9cc021fc4e5ee4feeb803aa6c87a1e658fadb1c9f3f75";
+		Appodeal.initialize(this, appKey, Appodeal.BANNER);
+		Appodeal.setTesting(true);
+		Appodeal.setLogging(true);
+		//Appodeal.show(AndroidLauncher.this, Appodeal.BANNER);
 	}
 
 	@Override
@@ -293,6 +307,8 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 			public void run() {
 				adView.setVisibility(View.VISIBLE);
 				adView.bringToFront();
+				Appodeal.show(AndroidLauncher.this, Appodeal.BANNER);
+
 			}
 		});
 	}
@@ -303,6 +319,7 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 			@Override
 			public void run() {
 				adView.setVisibility(View.INVISIBLE);
+				Appodeal.hide(AndroidLauncher.this, Appodeal.BANNER);
 			}
 		});
 	}
