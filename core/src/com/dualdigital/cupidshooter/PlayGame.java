@@ -18,7 +18,7 @@ public class PlayGame extends State {
     private Random rand;
     private static long score;
     private static long lives;
-    private BitmapFont font, livesText, scorefont;
+    private BitmapFont font, livesText, scorefont, instructFont;
     int cameraWidth = TheGame.WIDTH / 2;
     int cameraHeight = TheGame.HEIGHT / 2;
     Stage stage = new Stage();
@@ -49,7 +49,9 @@ public class PlayGame extends State {
         font.getData().setScale(1.2f, 1.2f);
         scorefont = AssetLoader.scoreFont;
         scorefont.getData().setScale(1.5f, 1.5f);
-        labelStyle = new Label.LabelStyle(scorefont, Color.PURPLE);
+        instructFont = AssetLoader.instructFont;
+        instructFont.getData().setScale(0.8f, 0.8f);
+        labelStyle = new Label.LabelStyle(instructFont, Color.PURPLE);
         String instructionsText = "Tilt the screen up or down to move the shooter\nTap the screen to shoot arrow\nTo Play, Tap Screen!";
         instructions = new Label(instructionsText, labelStyle);
         instructions.setPosition((cameraWidth / 2) - (instructions.getWidth() / 2), cameraHeight / 2 - 40);

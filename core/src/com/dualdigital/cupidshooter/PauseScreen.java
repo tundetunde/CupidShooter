@@ -59,7 +59,7 @@ public class PauseScreen extends State {
         sb.draw(background, camera.position.x - (camera.viewportWidth / 2), 0);
         sb.draw(shooter.getTexture(), shooter.getPosition().x, shooter.getPosition().y);
         String scoreString = "PAUSED";
-        font.draw(sb, scoreString, TheGame.WIDTH / 4 - scoreString.length() * 10, (TheGame.HEIGHT / 8) * 3);
+        font.draw(sb, scoreString, TheGame.WIDTH / 4 - scoreString.length() * 40, (TheGame.HEIGHT / 8) * 3);
         sb.end();
         stage.getViewport().setCamera(camera);
         stage.draw();
