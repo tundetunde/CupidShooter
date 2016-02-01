@@ -28,8 +28,9 @@ public class PlayGame extends State {
     private ArrayList<Arrow> arrowList;
     private ArrayList<FallingObject> fallingObjects;
     static Texture heart;
-    private float timer, lastTimer = 0;
+    private float timer, touchTime, touchLastTime, lastTimer = 0;
     private double timeIntervals = 1.0;
+    private double touchTimeIntervals = 0.5;
 
     protected PlayGame(GameStateManager gcm) {
         super(gcm);
@@ -82,10 +83,16 @@ public class PlayGame extends State {
         float x = Gdx.input.getAccelerometerX();
         shooter.move(-x);
 
+        touchTime += Gdx.graphics.getDeltaTime();
         //If user has touched screen, shoot arrow
         if(Gdx.input.justTouched()){
-            arrowList.get(arrowList.size() - 1).setShoot(true, x);
-            arrowList.add(new Arrow(AssetLoader.arrow, new Vector3(shooterX, shooterY + (shooter.getTexture().getHeight() / 2), 0), new Vector3(0, 0, 0)));
+            if(touchTime-touchLastTime > touchTimeIntervals){
+                arrowList.get(arrowList.size() - 1).setShoot(true, x);
+                arrowList.add(new Arrow(AssetLoader.arrow, new Vector3(shooterX, shooterY + (shooter.getTexture().getHeight() / 2), 0), new Vector3(0, 0, 0)));
+                touchLastTime = touchTime;
+                touchTimeIntervals = 0.5;
+            }
+
         }
     }
 
